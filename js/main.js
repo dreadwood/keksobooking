@@ -37,8 +37,9 @@ var getHousingOptions = function () {
     }
   };
 
+  var quantityOfHouses = 8;
   var arrayHouse = [];
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < quantityOfHouses; i++) {
     arrayHouse[i] = mockHouse;
   }
 
