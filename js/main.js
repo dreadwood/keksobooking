@@ -6,11 +6,14 @@ var getRandomInteger = function (min, max) {
   return Math.floor(rand);
 };
 
-// 1 Задание
-var getHousingOptions = function () {
+// module3-task2 - Задание 1
+var quantityOfHouses = 8;
+
+// Создание мока
+var getMockHouse = function () {
   var mockHouse = {
     author: {
-      avatar: 'img/avatars/user0' + getRandomInteger(1, 8) + '.png'
+      avatar: 'img/avatars/user0' + getRandomInteger(1, quantityOfHouses) + '.png'
     },
 
     offer: {
@@ -37,20 +40,28 @@ var getHousingOptions = function () {
     }
   };
 
-  var quantityOfHouses = 8;
+  return mockHouse;
+};
+
+// Создание массивов с моками
+var getArrayHouse = function () {
   var arrayHouse = [];
   for (var i = 0; i < quantityOfHouses; i++) {
-    arrayHouse[i] = mockHouse;
+    arrayHouse[i] = getMockHouse();
   }
 
   return arrayHouse;
 };
 
-// 2 Задание
+
+// module3-task2 - Задание 2
+// Переключение в активное состояние карты
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
-// 3 Задание
+
+// module3-task2 - Задание 3
+// Создание шаблона для отрисовки меток
 var mapPins = map.querySelector('.map__pins');
 var pinTemplate = document.getElementById('pin').content.querySelector('.map__pin');
 
@@ -64,12 +75,14 @@ var renderPins = function (pin) {
   return pinsElement;
 };
 
-// 4 Задание
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < getHousingOptions().length; i++) {
-  fragment.appendChild(renderPins(getHousingOptions()[i]));
-}
 
+// module3-task2 - Задание 4
+// Добавление меток на карту
+var fragment = document.createDocumentFragment();
+var houseCards = getArrayHouse();
+for (var i = 0; i < houseCards.length; i++) {
+  fragment.appendChild(renderPins(houseCards[i]));
+}
 mapPins.appendChild(fragment);
 
 
@@ -124,4 +137,4 @@ var renderCard = function (card) {
 
 // module3-task3 - Задание 3
 // Вставка шаблона карточки предложения на страницу
-mapPins.after(renderCard(getHousingOptions()[0]));
+mapPins.after(renderCard(houseCards[0]));
