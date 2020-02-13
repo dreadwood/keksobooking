@@ -17,16 +17,16 @@ var getMockHouse = function () {
     },
 
     offer: {
-      title: 'Новая метка', // заголовок предложения
+      title: 'Уютная стильная мансарда с камином', // заголовок предложения
       address: '600, 350', // x и y
-      price: 0,
-      type: 'flat', // варианты palace, house, bungalo
-      rooms: 1,
-      guests: 1,
-      checkin: '14: 00', // варианты 12: 00 или 13: 00
-      checkout: '12: 00', // варианты 13: 00 или 14: 00
-      features: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'], // возможен массив любой длины из предложенных
-      description: '', // описание
+      price: getRandomInteger(1000, 9999),
+      type: 'flat', // варианты flat, palace, house, bungalo
+      rooms: getRandomInteger(1, 4),
+      guests: getRandomInteger(1, 4),
+      checkin: '14:00', // варианты 12:00, 13:00 или 14:00
+      checkout: '12:00', // варианты 12:00, 13:00 или 14:00
+      features: ['wifi', 'parking', 'washer', 'conditioner'], // возможен массив любой длины из 'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'
+      description: 'Поднимитесь в эту старинную мансарду, чтобы ощутить тишину и покой после прогулок по историческому центру города. Мягкий утренний свет и забавные блики заката проникают через большие окна в эту светлую квартиру с оригинальной отделкой.', // описание
       photos: [
         'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
         'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
