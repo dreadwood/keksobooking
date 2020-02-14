@@ -10,10 +10,10 @@ var getRandomInteger = function (min, max) {
 var quantityOfHouses = 8;
 
 // Создание мока
-var getMockHouse = function () {
+var getMockHouse = function (counter) {
   var mockHouse = {
     author: {
-      avatar: 'img/avatars/user0' + getRandomInteger(1, quantityOfHouses) + '.png'
+      avatar: 'img/avatars/user0' + (counter + 1) + '.png'
     },
 
     offer: {
@@ -47,7 +47,7 @@ var getMockHouse = function () {
 var getArrayHouse = function () {
   var arrayHouse = [];
   for (var i = 0; i < quantityOfHouses; i++) {
-    arrayHouse[i] = getMockHouse();
+    arrayHouse[i] = getMockHouse(i);
   }
 
   return arrayHouse;
