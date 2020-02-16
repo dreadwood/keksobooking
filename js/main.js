@@ -6,24 +6,27 @@ var getRandomInteger = function (min, max) {
   return Math.floor(rand);
 };
 
-// 1 Задание
-var getHousingOptions = function () {
+// module3-task2 - Задание 1
+var quantityOfHouses = 8;
+
+// Создание мока
+var getMockHouse = function (counter) {
   var mockHouse = {
     author: {
-      avatar: 'img/avatars/user0' + getRandomInteger(1, 8) + '.png'
+      avatar: 'img/avatars/user0' + (counter + 1) + '.png'
     },
 
     offer: {
-      title: 'Новая метка', // заголовок предложения
+      title: 'Уютная стильная мансарда с камином', // заголовок предложения
       address: '600, 350', // x и y
-      price: 0,
-      type: 'flat', // варианты palace, house, bungalo
-      rooms: 1,
-      guests: 1,
-      checkin: '14: 00', // варианты 12: 00 или 13: 00
-      checkout: '12: 00', // варианты 13: 00 или 14: 00
-      features: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'], // возможен массив любой длины из предложенных
-      description: '', // описание
+      price: getRandomInteger(1000, 9999),
+      type: 'flat', // варианты flat, palace, house, bungalo
+      rooms: getRandomInteger(1, 4),
+      guests: getRandomInteger(1, 4),
+      checkin: '14:00', // варианты 12:00, 13:00 или 14:00
+      checkout: '12:00', // варианты 12:00, 13:00 или 14:00
+      features: ['wifi', 'parking', 'washer', 'conditioner'], // возможен массив любой длины из 'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'
+      description: 'Поднимитесь в эту старинную мансарду, чтобы ощутить тишину и покой после прогулок по историческому центру города. Мягкий утренний свет и забавные блики заката проникают через большие окна в эту светлую квартиру с оригинальной отделкой.', // описание
       photos: [
         'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
         'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
@@ -37,19 +40,28 @@ var getHousingOptions = function () {
     }
   };
 
+  return mockHouse;
+};
+
+// Создание массивов с моками
+var getArrayHouse = function () {
   var arrayHouse = [];
-  for (var i = 0; i < 8; i++) {
-    arrayHouse[i] = mockHouse;
+  for (var i = 0; i < quantityOfHouses; i++) {
+    arrayHouse[i] = getMockHouse(i);
   }
 
   return arrayHouse;
 };
 
-// 2 Задание
+
+// module3-task2 - Задание 2
+// Переключение в активное состояние карты
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
-// 3 Задание
+
+// module3-task2 - Задание 3
+// Создание шаблона для отрисовки меток
 var mapPins = map.querySelector('.map__pins');
 var pinTemplate = document.getElementById('pin').content.querySelector('.map__pin');
 
@@ -63,10 +75,66 @@ var renderPins = function (pin) {
   return pinsElement;
 };
 
-// 4 Задание
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < getHousingOptions().length; i++) {
-  fragment.appendChild(renderPins(getHousingOptions()[i]));
-}
 
+// module3-task2 - Задание 4
+// Добавление меток на карту
+var fragment = document.createDocumentFragment();
+var houseCards = getArrayHouse();
+for (var i = 0; i < houseCards.length; i++) {
+  fragment.appendChild(renderPins(houseCards[i]));
+}
 mapPins.appendChild(fragment);
+
+
+// module3-task3 - Задание 2
+var cartTemplate = document.getElementById('card').content.querySelector('.map__card');
+
+// Создание шаблона для карточки предложения
+var renderCard = function (card) {
+  var cardElement = cartTemplate.cloneNode(true);
+
+  // Аватарка попапа
+  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+  // Title
+  cardElement.querySelector('.popup__title').textContent = card.offer.title;
+  // Адрес
+  cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
+  // Цена
+  cardElement.querySelector('.popup__text--price').childNodes[0].textContent = card.offer.price + '₽';
+  // Тип жилья
+  var typeHouses = {
+    flat: 'Квартира',
+    palace: 'Дворец',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
+  cardElement.querySelector('.popup__type').textContent = typeHouses[card.offer.type];
+  // Колличество гостей и комнат
+  cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+  // Время заезда и выезда
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+  // Удобства
+  var featuresOfHouse = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  for (var k = 0; k < featuresOfHouse.length; k++) {
+    if (card.offer.features.includes(featuresOfHouse[k]) === false) {
+      cardElement.querySelector('.popup__feature--' + featuresOfHouse[k]).remove();
+    }
+  }
+  // Описание
+  cardElement.querySelector('.popup__description').textContent = card.offer.description;
+  // Фото
+  var cardFirstPhotoElement = cardElement.querySelector('.popup__photo');
+  cardFirstPhotoElement.src = card.offer.photos[0];
+  for (var j = 1; j < card.offer.photos.length; j++) {
+    var cardPhotoElement = cardFirstPhotoElement.cloneNode(true);
+    cardPhotoElement.src = card.offer.photos[j];
+    cardElement.querySelector('.popup__photos').appendChild(cardPhotoElement);
+  }
+
+  return cardElement;
+};
+
+
+// module3-task3 - Задание 3
+// Вставка шаблона карточки предложения на страницу
+mapPins.after(renderCard(houseCards[0]));
