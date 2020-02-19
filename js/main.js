@@ -218,7 +218,7 @@ mapPinMain.addEventListener('keydown', function (evt) {
 
 
 // Добавление адреса для отправки формы
-formAd.setAttribute('action', 'https://js.dump.academy/keksobooking')
+formAd.setAttribute('action', 'https://js.dump.academy/keksobooking');
 
 // Валидация полей комнат и гостей при отправке формы
 var myFunc = function () {
