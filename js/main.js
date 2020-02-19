@@ -83,7 +83,7 @@ var houseCards = getArrayHouse();
 for (var i = 0; i < houseCards.length; i++) {
   fragment.appendChild(renderPins(houseCards[i]));
 }
-mapPins.appendChild(fragment);
+// mapPins.appendChild(fragment);
 
 
 // // module3-task3 - Задание 2
@@ -200,6 +200,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === LEFT_MOUSE_BUTTON) {
     activatePage();
     addressFormAd.defaultValue = getPinCoordsPointer(mapPinMain);
+    mapPins.appendChild(fragment);
     evt.preventDefault();
   }
 });
@@ -208,6 +209,7 @@ mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     activatePage();
     addressFormAd.defaultValue = getPinCoordsPointer(mapPinMain);
+    mapPins.appendChild(fragment);
     evt.preventDefault();
   }
 });
