@@ -144,6 +144,8 @@ for (var i = 0; i < houseCards.length; i++) {
 var formAd = document.querySelector('.ad-form');
 var mapPinMain = map.querySelector('.map__pin--main');
 var addressFormAd = formAd.querySelector('#address');
+var numberOfRoomsFormAd = formAd.querySelector('#room_number');
+var capacityRoomFormAd = formAd.querySelector('#capacity');
 
 var HALF = 2;
 var POINTER_HEIGHT = 16;
@@ -214,4 +216,21 @@ mapPinMain.addEventListener('keydown', function (evt) {
   }
 });
 
+
+// Добавление адреса для отправки формы
+formAd.setAttribute('action', 'https://js.dump.academy/keksobooking')
+
+// Валидация полей комнат и гостей при отправке формы
+var myFunc = function () {
+  if (Number(numberOfRoomsFormAd.value) < Number(capacityRoomFormAd.value)) {
+    numberOfRoomsFormAd.setCustomValidity('Колличество комнат должно равняться колличеству гостей');
+  } else {
+    numberOfRoomsFormAd.setCustomValidity('');
+  }
+};
+
+formAd.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  myFunc();
+});
 
