@@ -142,10 +142,13 @@ for (var i = 0; i < houseCards.length; i++) {
 
 // module4-task2
 var formAd = document.querySelector('.ad-form');
+var mapFilters = map.querySelector('.map__filters');
 var mapPinMain = map.querySelector('.map__pin--main');
 var addressFormAd = formAd.querySelector('#address');
+var titleFormAd = formAd.querySelector('#title');
 var numberOfRoomsFormAd = formAd.querySelector('#room_number');
 var capacityRoomFormAd = formAd.querySelector('#capacity');
+// var submitButtonFormAd = formAd.querySelector('.ad-form__submit');
 
 var HALF = 2;
 var POINTER_HEIGHT = 16;
@@ -154,8 +157,8 @@ var ENTER_KEY = 'Enter';
 var LEFT_MOUSE_BUTTON = 0;
 
 // Заблокировать поля формы
-var changeDisabledFieldset = function (form, boolean) {
-  var fieldsetOfForm = form.querySelectorAll('fieldset');
+var changeDisabledForm = function (form, boolean) {
+  var fieldsetOfForm = form.querySelectorAll('fieldset, select');
   if (boolean === true) {
     for (var j = 0; j < fieldsetOfForm.length; j++) {
       fieldsetOfForm[j].setAttribute('disabled', '');
@@ -185,52 +188,46 @@ var getPinCoordsPointer = function (pin) {
   return coords.x + ', ' + coords.y;
 };
 
-
-// Включние неактивного состояния
-changeDisabledFieldset(formAd, true);
-addressFormAd.defaultValue = getPinCoordsCenter(mapPinMain);
-
-var activatePage = function () {
-  map.classList.remove('map--faded');
-  formAd.classList.remove('ad-form--disabled');
-  changeDisabledFieldset(formAd, false);
-};
-
-
-// Включние активного состояния
-mapPinMain.addEventListener('mousedown', function (evt) {
-  if (evt.button === LEFT_MOUSE_BUTTON) {
-    activatePage();
-    addressFormAd.defaultValue = getPinCoordsPointer(mapPinMain);
-    mapPins.appendChild(fragment);
-    evt.preventDefault();
-  }
-});
-
-mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.key === ENTER_KEY) {
-    activatePage();
-    addressFormAd.defaultValue = getPinCoordsPointer(mapPinMain);
-    mapPins.appendChild(fragment);
-    evt.preventDefault();
-  }
-});
-
-
-// Добавление адреса для отправки формы
-formAd.setAttribute('action', 'https://js.dump.academy/keksobooking');
-
-// Валидация полей комнат и гостей при отправке формы
-var myFunc = function () {
+// Валидация комнат и гостей
+var validateRoomsAdnCapacity = function () {
   if (Number(numberOfRoomsFormAd.value) < Number(capacityRoomFormAd.value)) {
-    numberOfRoomsFormAd.setCustomValidity('Колличество комнат должно равняться колличеству гостей');
+    numberOfRoomsFormAd.setCustomValidity('Колличество комнат должно быть больше или равно колличеству гостей');
   } else {
     numberOfRoomsFormAd.setCustomValidity('');
   }
 };
 
-formAd.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-  myFunc();
+// Активация страницы
+var activatePage = function (evtActivate) {
+  map.classList.remove('map--faded');
+  formAd.classList.remove('ad-form--disabled');
+  changeDisabledForm(formAd, false);
+  changeDisabledForm(mapFilters, false);
+  addressFormAd.defaultValue = getPinCoordsPointer(mapPinMain);
+  mapPins.appendChild(fragment);
+  titleFormAd.setAttribute('required', '');
+  formAd.addEventListener('change', validateRoomsAdnCapacity);
+  evtActivate.preventDefault();
+};
+
+
+// Добавление адреса для отправки формы
+formAd.setAttribute('action', 'https://js.dump.academy/keksobooking');
+
+// Включние неактивного состояния
+changeDisabledForm(formAd, true);
+changeDisabledForm(mapFilters, true);
+addressFormAd.defaultValue = getPinCoordsCenter(mapPinMain);
+
+// Включние активного состояния
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.button === LEFT_MOUSE_BUTTON) {
+    activatePage(evt);
+  }
 });
 
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    activatePage(evt);
+  }
+});
