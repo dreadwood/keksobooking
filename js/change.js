@@ -5,7 +5,6 @@
   var LEFT_MOUSE_BUTTON = 0;
 
   var map = document.querySelector('.map');
-  var mapPins = map.querySelector('.map__pins');
   var mapFilters = map.querySelector('.map__filters');
   var mapPinMain = map.querySelector('.map__pin--main');
   var formAd = document.querySelector('.ad-form');
@@ -21,7 +20,7 @@
     window.form.changeDisabledForm(formAd, false);
 
     window.form.changeDisabledForm(mapFilters, false);
-    mapPins.appendChild(window.map.fragmentPin);
+    window.map.addPinAd();
 
     addressFormAd.defaultValue = window.pin.getPinCoordsPointer(mapPinMain);
     titleFormAd.setAttribute('required', '');
