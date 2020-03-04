@@ -11,6 +11,7 @@
   var renderPins = function (pin) {
     var pinsElement = pinTemplate.cloneNode(true);
 
+    pinsElement.classList.add('map__pin--ad');
     pinsElement.style = 'left: ' + (pin.location.x - 25) + 'px; top: ' + (pin.location.y - 70) + 'px;';
     pinsElement.querySelector('img').src = pin.author.avatar;
     pinsElement.querySelector('img').alt = pin.offer.title;
