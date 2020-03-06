@@ -6,6 +6,13 @@
   pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
+    var COORDS = {
+      MIN_X: -32,
+      MAX_X: 1168,
+      MIN_Y: 130,
+      MAX_Y: 630
+    };
+
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -24,8 +31,23 @@
         y: moveEvt.clientY
       };
 
-      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
-      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+      var currentY = pinMain.offsetTop - shift.y;
+      var currentX = pinMain.offsetLeft - shift.x;
+
+      var getPinMainCoord = function (current, max, min) {
+        var currentCoord;
+        if (current > max) {
+          currentCoord = max;
+        } else if (current < min) {
+          currentCoord = min;
+        } else {
+          currentCoord = current;
+        }
+        return currentCoord;
+      };
+
+      pinMain.style.top = getPinMainCoord(currentY, COORDS.MAX_Y, COORDS.MIN_Y) + 'px';
+      pinMain.style.left = getPinMainCoord(currentX, COORDS.MAX_X, COORDS.MIN_X) + 'px';
     };
 
     var onMouseUp = function (upEvt) {
