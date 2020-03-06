@@ -5,8 +5,8 @@
   var LEFT_MOUSE_BUTTON = 0;
 
   var map = document.querySelector('.map');
-  var mapFilters = map.querySelector('.map__filters');
-  var mapPinMain = map.querySelector('.map__pin--main');
+  var formFilters = map.querySelector('.map__filters');
+  var pinMain = map.querySelector('.map__pin--main');
   var formAd = document.querySelector('.ad-form');
   var addressFormAd = formAd.querySelector('#address');
   var titleFormAd = formAd.querySelector('#title');
@@ -17,31 +17,35 @@
     map.classList.remove('map--faded');
 
     formAd.classList.remove('ad-form--disabled');
-    window.form.changeDisabledForm(formAd, false);
+    window.form.changeDisabled(formAd, false);
 
-    window.form.changeDisabledForm(mapFilters, false);
+    window.form.changeDisabled(formFilters, false);
     window.map.addPinAd();
 
-    addressFormAd.defaultValue = window.pin.getPinCoordsPointer(mapPinMain);
+    addressFormAd.defaultValue = window.pin.getPinCoordsPointer(pinMain);
     titleFormAd.setAttribute('required', '');
-    formAd.addEventListener('change', window.form.validateRoomsAdnCapacity);
+    formAd.addEventListener('change', window.form.validation);
 
     evtActivate.preventDefault();
+
+    pinMain.removeEventListener('mousedown', activateHandler);
   };
 
-  // Включние неактивного состояния
-  window.form.changeDisabledForm(formAd, true);
-  window.form.changeDisabledForm(mapFilters, true);
-  addressFormAd.defaultValue = window.pin.getPinCoordsCenter(mapPinMain);
-
-  // Включние активного состояния
-  mapPinMain.addEventListener('mousedown', function (evt) {
+  var activateHandler = function (evt) {
     if (evt.button === LEFT_MOUSE_BUTTON) {
       activatePage(evt);
     }
-  });
+  };
 
-  mapPinMain.addEventListener('keydown', function (evt) {
+  // Включние неактивного состояния
+  window.form.changeDisabled(formAd, true);
+  window.form.changeDisabled(formFilters, true);
+  addressFormAd.defaultValue = window.pin.getPinCoordsCenter(pinMain);
+
+  // Включние активного состояния
+  pinMain.addEventListener('mousedown', activateHandler);
+
+  pinMain.addEventListener('keydown', function (evt) {
     if (evt.key === ENTER_KEY) {
       activatePage(evt);
     }

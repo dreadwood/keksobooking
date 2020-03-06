@@ -4,6 +4,17 @@
   var formAd = document.querySelector('.ad-form');
   var numberOfRoomsFormAd = formAd.querySelector('#room_number');
   var capacityRoomFormAd = formAd.querySelector('#capacity');
+  var housingTypeFormAd = formAd.querySelector('#type');
+  var priceFormAd = formAd.querySelector('#price');
+  var timeinFormAd = formAd.querySelector('#timein');
+  var timeoutFormAd = formAd.querySelector('#timeout');
+  var minPriceHousingType = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+
 
   // Заблокировать поля формы
   var changeDisabledForm = function (form, boolean) {
@@ -28,11 +39,33 @@
     }
   };
 
-  // Добавление адреса для отправки формы
-  formAd.setAttribute('action', 'https://js.dump.academy/keksobooking');
+  // Валидация типа жилья и цены
+  var validatePriceRoom = function () {
+    var minPrice = minPriceHousingType[housingTypeFormAd.value];
+    priceFormAd.placeholder = minPrice;
+    if (priceFormAd.value < minPrice) {
+      priceFormAd.setCustomValidity('Минимальная цена данного типа жилья ' + minPrice + ' рублей');
+    } else {
+      priceFormAd.setCustomValidity('');
+    }
+  };
+
+  // Валидация времени заезда и выезда
+  var validateTime = function (evt) {
+    if (evt.target.name === 'timeout' || evt.target.name === 'timein') {
+      timeinFormAd.value = evt.target.value;
+      timeoutFormAd.value = evt.target.value;
+    }
+  };
+
+  var addValidationFormAd = function (evt) {
+    validateRoomsAdnCapacity();
+    validatePriceRoom();
+    validateTime(evt);
+  };
 
   window.form = {
-    changeDisabledForm: changeDisabledForm,
-    validateRoomsAdnCapacity: validateRoomsAdnCapacity
+    changeDisabled: changeDisabledForm,
+    validation: addValidationFormAd
   };
 })();

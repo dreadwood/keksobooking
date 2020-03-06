@@ -3,7 +3,7 @@
 (function () {
   var fragmentPin = document.createDocumentFragment();
 
-  // Удаляет все дочерные узлы с определенным классом (Pin-Ad с карты)
+  // Удаляет все дочерные элементы с определенным классом (Pin-Ad с карты)
   var deleteElements = function (node, className) {
     var elementsArrayForRemove = node.querySelectorAll('.' + className);
     elementsArrayForRemove.forEach(function (element) {
@@ -33,16 +33,15 @@
   // Обработчик для сортировки
   var housingType = document.getElementById('housing-type');
   housingType.addEventListener('change', function (evt) {
-
     createPins(filterPinAd(evt, houseCards));
     addPinAd(fragmentPin);
   });
 
   var createPins = function (data) {
-    var sliceArray = data.slice(0, 5);
-    for (var i = 0; i < sliceArray.length; i++) {
-      fragmentPin.appendChild(window.pin.renderPins(sliceArray[i]));
-    }
+    var dataForPins = data.slice(0, 5);
+    dataForPins.forEach(function (item) {
+      fragmentPin.appendChild(window.pin.render(item));
+    });
   };
 
   var createError = function (message) {
@@ -71,12 +70,10 @@
     createPins(houseCards);
   };
 
-  // // Вставка шаблона карточки предложения на страницу
-  // mapPins.after(window.card.renderCard(houseCards[0]));
-
   window.backend.load(successHandler, createError);
 
   window.map = {
-    addPinAd: addPinAd
+    addPinAd: addPinAd,
+    deleteElements: deleteElements
   };
 })();
