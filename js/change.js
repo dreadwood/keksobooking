@@ -8,25 +8,21 @@
   var formFilters = map.querySelector('.map__filters');
   var pinMain = map.querySelector('.map__pin--main');
   var formAd = document.querySelector('.ad-form');
-  var addressFormAd = formAd.querySelector('#address');
   var titleFormAd = formAd.querySelector('#title');
-  // var submitButtonFormAd = formAd.querySelector('.ad-form__submit');
 
   // Активация страницы
   var activatePage = function (evtActivate) {
+    evtActivate.preventDefault();
+
     map.classList.remove('map--faded');
-
     formAd.classList.remove('ad-form--disabled');
-    window.form.changeDisabled(formAd, false);
-
     window.form.changeDisabled(formFilters, false);
     window.map.addPinAd();
 
-    addressFormAd.defaultValue = window.pin.getPinCoordsPointer(pinMain);
+    window.form.changeDisabled(formAd, false);
+    window.form.address();
     titleFormAd.setAttribute('required', '');
     formAd.addEventListener('change', window.form.validation);
-
-    evtActivate.preventDefault();
 
     pinMain.removeEventListener('mousedown', activateHandler);
   };
@@ -40,7 +36,7 @@
   // Включние неактивного состояния
   window.form.changeDisabled(formAd, true);
   window.form.changeDisabled(formFilters, true);
-  addressFormAd.defaultValue = window.pin.getPinCoordsCenter(pinMain);
+  window.form.address(true);
 
   // Включние активного состояния
   pinMain.addEventListener('mousedown', activateHandler);

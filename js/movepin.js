@@ -48,16 +48,18 @@
 
       pinMain.style.top = getPinMainCoord(currentY, COORDS.MAX_Y, COORDS.MIN_Y) + 'px';
       pinMain.style.left = getPinMainCoord(currentX, COORDS.MAX_X, COORDS.MIN_X) + 'px';
+
+      window.form.address();
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
   });
 })();

@@ -2,6 +2,7 @@
 
 (function () {
   var formAd = document.querySelector('.ad-form');
+  var addressFormAd = formAd.querySelector('#address');
   var numberOfRoomsFormAd = formAd.querySelector('#room_number');
   var capacityRoomFormAd = formAd.querySelector('#capacity');
   var housingTypeFormAd = formAd.querySelector('#type');
@@ -15,6 +16,14 @@
     palace: 10000
   };
 
+  // Получить кординаты pin--main и вставить в поле адреса
+  var getAddress = function (boolean) {
+    if (boolean) {
+      addressFormAd.defaultValue = window.pin.coordsOfCenterMain();
+    } else {
+      addressFormAd.defaultValue = window.pin.coordsOfPointerMain();
+    }
+  };
 
   // Заблокировать поля формы
   var changeDisabledForm = function (form, boolean) {
@@ -66,6 +75,7 @@
 
   window.form = {
     changeDisabled: changeDisabledForm,
-    validation: addValidationFormAd
+    validation: addValidationFormAd,
+    address: getAddress
   };
 })();
