@@ -17,18 +17,14 @@
   };
 
   // Получить кординаты pin--main и вставить в поле адреса
-  var getAddress = function (boolean) {
-    if (boolean) {
-      addressFormAd.defaultValue = window.pin.coordsOfCenterMain();
-    } else {
-      addressFormAd.defaultValue = window.pin.coordsOfPointerMain();
-    }
+  var getAddress = function (center) {
+    addressFormAd.defaultValue = center ? window.pin.coordsOfCenterMain() : window.pin.coordsOfPointerMain();
   };
 
   // Заблокировать поля формы
-  var changeDisabledForm = function (form, boolean) {
+  var changeDisabledForm = function (form, block) {
     var fieldsetOfForm = form.querySelectorAll('fieldset, select');
-    if (boolean === true) {
+    if (block) {
       for (var j = 0; j < fieldsetOfForm.length; j++) {
         fieldsetOfForm[j].setAttribute('disabled', '');
       }
