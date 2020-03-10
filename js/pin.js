@@ -1,11 +1,12 @@
 'use strict';
 
 (function () {
-
   var HALF = 2;
   var POINTER_MAIN_HEIGHT = 16;
   var POINTER_PIN_WIDTH = 50;
   var POINTER_PIN_HEIGHT = 70;
+
+  var pinMain = document.querySelector('.map__pin--main');
 
   // Создание шаблона для отрисовки меток
   var pinTemplate = document.getElementById('pin').content.querySelector('.map__pin');
@@ -43,7 +44,7 @@
   };
 
   // Нахождения кординат центра pin--main
-  var getPinCoordsCenter = function (pinMain) {
+  var getPinCoordsCenter = function () {
     var coords = {
       x: pinMain.offsetLeft + Math.floor(pinMain.offsetWidth / HALF),
       y: pinMain.offsetTop + Math.floor(pinMain.offsetHeight / HALF)
@@ -52,7 +53,7 @@
   };
 
   // Нахождения кординат указателя pin--main
-  var getPinCoordsPointer = function (pinMain) {
+  var getPinCoordsPointer = function () {
     var coords = {
       x: pinMain.offsetLeft + Math.floor(pinMain.offsetWidth / HALF),
       y: pinMain.offsetTop + pinMain.offsetHeight + POINTER_MAIN_HEIGHT
@@ -62,8 +63,8 @@
 
   window.pin = {
     render: renderPins,
-    getPinCoordsCenter: getPinCoordsCenter,
-    getPinCoordsPointer: getPinCoordsPointer,
+    coordsOfCenterMain: getPinCoordsCenter,
+    coordsOfPointerMain: getPinCoordsPointer,
     resetStatus: resetStatusPin
   };
 })();
