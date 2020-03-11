@@ -9,9 +9,8 @@
   var pinMain = document.querySelector('.map__pin--main');
 
   // Создание шаблона для отрисовки меток
-  var pinTemplate = document.getElementById('pin').content.querySelector('.map__pin');
-
   var renderPins = function (dataItem) {
+    var pinTemplate = document.getElementById('pin').content.querySelector('.map__pin');
     var pinsElement = pinTemplate.cloneNode(true);
 
     pinsElement.classList.add('map__pin--ad');
@@ -25,7 +24,7 @@
     var mapPins = document.querySelector('.map__pins');
 
     pinsElement.addEventListener('click', function () {
-      window.map.deleteElements(map, 'map__card');
+      window.data.deleteElements(map, 'map__card');
       resetStatusPin();
       mapPins.after(window.card.renderCard(dataItem));
       pinsElement.classList.add('map__pin--active');

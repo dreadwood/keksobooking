@@ -2,6 +2,7 @@
 
 (function () {
   var formAd = document.querySelector('.ad-form');
+  var titleFormAd = formAd.querySelector('#title');
   var addressFormAd = formAd.querySelector('#address');
   var numberOfRoomsFormAd = formAd.querySelector('#room_number');
   var capacityRoomFormAd = formAd.querySelector('#capacity');
@@ -9,6 +10,7 @@
   var priceFormAd = formAd.querySelector('#price');
   var timeinFormAd = formAd.querySelector('#timein');
   var timeoutFormAd = formAd.querySelector('#timeout');
+  var resetButtonFormAd = formAd.querySelector('.ad-form__reset');
   var minPriceHousingType = {
     bungalo: 0,
     flat: 1000,
@@ -63,15 +65,41 @@
     }
   };
 
-  var addValidationFormAd = function (evt) {
+  // Вся валидация форм
+  var validationFormAdHandler = function (evt) {
     validateRoomsAdnCapacity();
     validatePriceRoom();
     validateTime(evt);
   };
 
+  // Обработчик отправки формы
+  formAd.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(formAd), window.map.createSuccess, window.map.createError);
+  });
+
+  // Активация формы
+  var activateFormAd = function () {
+    formAd.classList.remove('ad-form--disabled'); // удал стиль блокир
+    changeDisabledForm(formAd, false); // разблок поля форм
+    getAddress(); // заполн адрес pin--main
+    titleFormAd.setAttribute('required', ''); // устан обязат атриб полю title
+    formAd.addEventListener('change', validationFormAdHandler); // доб валидац
+
+    resetButtonFormAd.addEventListener('click', window.change.resetHandler); // сброс форм
+  };
+
+  // Сброс формы
+  var resetFormAd = function () {
+    formAd.reset(); // сброс знач форм
+    formAd.classList.add('ad-form--disabled'); // доб стиль блокир
+    window.form.changeDisabled(formAd, true); // заблок поля форм
+    getAddress(true); // заполн адрес pin--main
+  };
+
   window.form = {
     changeDisabled: changeDisabledForm,
-    validation: addValidationFormAd,
-    address: getAddress
+    activate: activateFormAd,
+    reset: resetFormAd
   };
 })();

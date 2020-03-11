@@ -53,7 +53,43 @@
     return arrayHouse;
   };
 
+
+  // Удаляет все дочерные элементы с определенным классом
+  var deleteElements = function (node, className) {
+    var elementsArrayForRemove = node.querySelectorAll('.' + className);
+    elementsArrayForRemove.forEach(function (element) {
+      element.remove();
+    });
+  };
+
+  // Функции для обработчика нажатия клавиш
+  var ESC_KEY = 'Escape';
+  var ENTER_KEY = 'Enter';
+  var LEFT_MOUSE_BUTTON = 0;
+
+  var isEscEvent = function (evt, action) {
+    if (evt.key === ESC_KEY) {
+      action();
+    }
+  };
+
+  var isEnterEvent = function (evt, action) {
+    if (evt.key === ENTER_KEY) {
+      action();
+    }
+  };
+
+  var isLeftButtonEvent = function (evt, action) {
+    if (evt.button === LEFT_MOUSE_BUTTON) {
+      action();
+    }
+  };
+
   window.data = {
-    getArrayHouse: getArrayHouse
+    getArrayHouse: getArrayHouse,
+    isEscEvent: isEscEvent,
+    isEnterEvent: isEnterEvent,
+    isLeftButtonEvent: isLeftButtonEvent,
+    deleteElements: deleteElements
   };
 })();
