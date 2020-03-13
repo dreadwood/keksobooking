@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   // Создание шаблона для карточки предложения
   var cartTemplate = document.getElementById('card').content.querySelector('.map__card');
 
@@ -14,7 +13,7 @@
       bungalo: 'Бунгало'
     };
     var featuresOfHouse = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-    var closeButton = cardElement.querySelector('.popup__close'); // может имя сменить
+    var closeButton = cardElement.querySelector('.popup__close');
 
     // Аватарка попапа
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
@@ -52,23 +51,23 @@
     }
 
 
-    // Работа с обработчиками закрытия
-    var onEscPress = function (evt) { // название
-      if (evt.key === 'Escape') {
-        cardElement.remove();
-        window.pin.resetStatus();
-      }
+    var closeHandler = function (evt) {
+      window.data.isLeftButtonEvent(evt, closeCard);
+      window.data.isEnterEvent(evt, closeCard);
+      window.data.isEscEvent(evt, closeCard);
     };
 
-    closeButton.addEventListener('click', function () {
+    // Закрытие карточки
+    var closeCard = function () {
+      closeButton.removeEventListener('click', closeHandler);
+      document.removeEventListener('keydown', closeHandler);
+
       cardElement.remove();
       window.pin.resetStatus();
-    });
+    };
 
-
-    document.addEventListener('keydown', function (evt) {
-      onEscPress(evt);
-    });
+    closeButton.addEventListener('click', closeHandler);
+    document.addEventListener('keydown', closeHandler);
 
     return cardElement;
   };

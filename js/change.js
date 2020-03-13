@@ -1,49 +1,52 @@
 'use strict';
 
 (function () {
-  var ENTER_KEY = 'Enter';
-  var LEFT_MOUSE_BUTTON = 0;
-
   var map = document.querySelector('.map');
-  var formFilters = map.querySelector('.map__filters');
   var pinMain = map.querySelector('.map__pin--main');
-  var formAd = document.querySelector('.ad-form');
-  var titleFormAd = formAd.querySelector('#title');
 
   // Активация страницы
-  var activatePage = function (evtActivate) {
-    evtActivate.preventDefault();
+  var activatePage = function () {
+    window.backend.load(window.map.activateMap, window.map.createError); // загр данных + актив карты
 
-    map.classList.remove('map--faded');
-    formAd.classList.remove('ad-form--disabled');
-    window.form.changeDisabled(formFilters, false);
-    window.map.addPinAd();
+    window.form.activate(); // актив формы
 
-    window.form.changeDisabled(formAd, false);
-    window.form.address();
-    titleFormAd.setAttribute('required', '');
-    formAd.addEventListener('change', window.form.validation);
+    pinMain.removeEventListener('click', activateHandler); // удал событ актив pin--main
+    pinMain.removeEventListener('keydown', activateHandler);
+  };
 
-    pinMain.removeEventListener('mousedown', activateHandler);
+  // Сброс страницы в неактивное состояние
+  var resetPage = function () {
+    window.map.resetMap(); // сброс карты
+
+    window.form.reset(); // сброс формы
+
+    window.map.deleteNotification(); // удал увед отправ/ошибки
+
+    pinMain.addEventListener('click', activateHandler); // доб событ актив pin--main
+    pinMain.addEventListener('keydown', activateHandler);
+
+    document.removeEventListener('click', resetHandler); // удал событ сброс
+    document.removeEventListener('keydown', resetHandler);
   };
 
   var activateHandler = function (evt) {
-    if (evt.button === LEFT_MOUSE_BUTTON) {
-      activatePage(evt);
-    }
+    window.data.isLeftButtonEvent(evt, activatePage);
+    window.data.isEnterEvent(evt, activatePage);
+  };
+
+  var resetHandler = function (evt) {
+    window.data.isLeftButtonEvent(evt, resetPage);
+    window.data.isEscEvent(evt, resetPage);
   };
 
   // Включние неактивного состояния
-  window.form.changeDisabled(formAd, true);
-  window.form.changeDisabled(formFilters, true);
-  window.form.address(true);
+  resetPage();
 
-  // Включние активного состояния
-  pinMain.addEventListener('mousedown', activateHandler);
+  // Обработчик для активного состояния
+  pinMain.addEventListener('click', activateHandler);
+  pinMain.addEventListener('keydown', activateHandler);
 
-  pinMain.addEventListener('keydown', function (evt) {
-    if (evt.key === ENTER_KEY) {
-      activatePage(evt);
-    }
-  });
+  window.change = {
+    resetHandler: resetHandler
+  };
 })();
