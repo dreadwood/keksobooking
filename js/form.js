@@ -99,6 +99,7 @@
 
   window.form = {
     changeDisabled: changeDisabledForm,
+    address: getAddress,
     activate: activateFormAd,
     reset: resetFormAd
   };
