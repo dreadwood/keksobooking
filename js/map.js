@@ -3,11 +3,20 @@
 (function () {
   var ORIGIN_COORDS_PIN_MAIN = 'left: 570px; top: 375px;';
   var MAX_PINS_AD = 5;
+  var PRICE = {
+    low: 10000,
+    high: 50000
+  };
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var pinMain = map.querySelector('.map__pin--main');
   var filters = map.querySelector('.map__filters');
-  var houseCards; // для массив загруж данных
+  var selectFilters = filters.querySelectorAll('select');
+  var housingFeatures = document.getElementById('housing-features');
+  var checkboxFilters = housingFeatures.querySelectorAll('input');
+  var houseCards; // массив загруж данных
+  var sortedArray; // массив сорт данных
+  var currentFilter = {}; // акт фильтры
   var fragmentPin = document.createDocumentFragment(); // фрагм отрисовк
 
   // Cоздать фрагмент с pin--ad
@@ -21,11 +30,20 @@
   // Добавляет pin--ad из фрагмента
   var addPinAd = function () {
     window.data.deleteElements(mapPins, 'map__pin--ad');
+    window.data.deleteElements(map, 'map__card');
     mapPins.appendChild(fragmentPin);
   };
 
+  // Фильтр типа жилья, кол-во комнат, гостей
+  var filterVariousFields = function (typeFilter) {
+    if (currentFilter[typeFilter] !== 'any') {
+      sortedArray = sortedArray.filter(function (ad) {
+        return currentFilter[typeFilter] === String(ad.offer[typeFilter]);
+      });
+    }
+  };
 
-  // Задание 7
+  // Фильтр цены
   var filterPrice = function () {
     if (currentFilter.price === 'low') {
       sortedArray = sortedArray.filter(function (ad) {
@@ -42,20 +60,7 @@
     }
   };
 
-  var PRICE = {
-    low: 10000,
-    high: 50000
-  };
-
-
-  var filterForm = function (typeFilter) {
-    if (currentFilter[typeFilter] !== 'any') {
-      sortedArray = sortedArray.filter(function (ad) {
-        return currentFilter[typeFilter] === String(ad.offer[typeFilter]);
-      });
-    }
-  };
-
+  // Фильтер удобств
   var filterFeatures = function () {
     if (currentFilter.features.length > 0) {
       currentFilter.features.forEach(function (itemFilter) {
@@ -66,14 +71,7 @@
     }
   };
 
-  var currentFilter = {};
-  var sortedArray;
-  var selectFilters = filters.querySelectorAll('select');
-  var housingFeatures = document.getElementById('housing-features');
-  var checkboxFilters = housingFeatures.querySelectorAll('input');
-
-  // Слушатель формы
-  filters.addEventListener('change', function () {
+  var getCurrentFilters = function () {
     selectFilters.forEach(function (itemFilter) {
       var indexCut = itemFilter.name.indexOf('-') + 1;
       currentFilter[itemFilter.name.slice(indexCut)] = itemFilter.value;
@@ -85,17 +83,21 @@
         currentFilter.features.push(itemFilter.value);
       }
     });
+  };
 
+  // Обработчик формы фильтров
+  filters.addEventListener('change', function () {
+    getCurrentFilters();
     sortedArray = houseCards;
-    filterForm('type');
+    filterVariousFields('type');
     filterPrice();
-    filterForm('rooms');
-    filterForm('guests');
+    filterVariousFields('rooms');
+    filterVariousFields('guests');
     filterFeatures();
     createPins(sortedArray);
-    addPinAd();
-  });
 
+    window.data.debounce(addPinAd);
+  });
 
   // Уведомление отправки
   var createSuccess = function () {

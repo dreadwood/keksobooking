@@ -85,11 +85,22 @@
     }
   };
 
+  // Устранение дребезга
+  var DEBOUNCE_INTERVAL = 500;
+  var lastTimeout;
+  var debounce = function (cb) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+  };
+
   window.data = {
     getArrayHouse: getArrayHouse,
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent,
     isLeftButtonEvent: isLeftButtonEvent,
-    deleteElements: deleteElements
+    deleteElements: deleteElements,
+    debounce: debounce
   };
 })();
