@@ -2,28 +2,17 @@
 
 (function () {
   var ORIGIN_COORDS_PIN_MAIN = 'left: 570px; top: 375px;';
+  var MAX_PINS_AD = 5;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var pinMain = map.querySelector('.map__pin--main');
-  var formFilters = map.querySelector('.map__filters');
+  var filters = map.querySelector('.map__filters');
   var houseCards; // для массив загруж данных
   var fragmentPin = document.createDocumentFragment(); // фрагм отрисовк
 
-  var filterPinAd = function (evt, array) {
-    var sortedArray;
-    if (evt.target.value === 'any') {
-      sortedArray = array;
-    } else {
-      sortedArray = array.filter(function (a) {
-        return a.offer.type === evt.target.value;
-      });
-    }
-    return sortedArray;
-  };
-
   // Cоздать фрагмент с pin--ad
   var createPins = function (data) {
-    var dataForPins = data.slice(0, 5);
+    var dataForPins = data.slice(0, MAX_PINS_AD);
     dataForPins.forEach(function (item) {
       fragmentPin.appendChild(window.pin.render(item));
     });
@@ -35,12 +24,78 @@
     mapPins.appendChild(fragmentPin);
   };
 
-  // Cортировка по типу жилья
-  var housingType = document.getElementById('housing-type');
-  housingType.addEventListener('change', function (evt) {
-    createPins(filterPinAd(evt, houseCards));
+
+  // Задание 7
+  var filterPrice = function () {
+    if (currentFilter.price === 'low') {
+      sortedArray = sortedArray.filter(function (ad) {
+        return ad.offer.price < PRICE.low;
+      });
+    } else if (currentFilter.price === 'high') {
+      sortedArray = sortedArray.filter(function (ad) {
+        return ad.offer.price > PRICE.high;
+      });
+    } else if (currentFilter.price === 'middle') {
+      sortedArray = sortedArray.filter(function (ad) {
+        return ad.offer.price > PRICE.low && ad.offer.price < PRICE.high;
+      });
+    }
+  };
+
+  var PRICE = {
+    low: 10000,
+    high: 50000
+  };
+
+
+  var filterForm = function (typeFilter) {
+    if (currentFilter[typeFilter] !== 'any') {
+      sortedArray = sortedArray.filter(function (ad) {
+        return currentFilter[typeFilter] === String(ad.offer[typeFilter]);
+      });
+    }
+  };
+
+  var filterFeatures = function () {
+    if (currentFilter.features.length > 0) {
+      currentFilter.features.forEach(function (itemFilter) {
+        sortedArray = sortedArray.filter(function (ad) {
+          return ad.offer.features.indexOf(itemFilter) > -1;
+        });
+      });
+    }
+  };
+
+  var currentFilter = {};
+  var sortedArray;
+  var selectFilters = filters.querySelectorAll('select');
+  var housingFeatures = document.getElementById('housing-features');
+  var checkboxFilters = housingFeatures.querySelectorAll('input');
+
+  // Слушатель формы
+  filters.addEventListener('change', function () {
+    selectFilters.forEach(function (itemFilter) {
+      var indexCut = itemFilter.name.indexOf('-') + 1;
+      currentFilter[itemFilter.name.slice(indexCut)] = itemFilter.value;
+    });
+
+    currentFilter.features = [];
+    checkboxFilters.forEach(function (itemFilter) {
+      if (itemFilter.checked === true) {
+        currentFilter.features.push(itemFilter.value);
+      }
+    });
+
+    sortedArray = houseCards;
+    filterForm('type');
+    filterPrice();
+    filterForm('rooms');
+    filterForm('guests');
+    filterFeatures();
+    createPins(sortedArray);
     addPinAd();
   });
+
 
   // Уведомление отправки
   var createSuccess = function () {
@@ -88,7 +143,7 @@
     createPins(houseCards); // созд фрагмент с pin--ad
     addPinAd(); // добав pin--ad
 
-    window.form.changeDisabled(formFilters, false); // разблок поля форм
+    window.form.changeDisabled(filters, false); // разблок поля форм
   };
 
   // Сброс карты
@@ -98,8 +153,8 @@
     pinMain.style = ORIGIN_COORDS_PIN_MAIN; // устан в центр pin--ad
     map.classList.add('map--faded'); // доб стиль блокир
 
-    formFilters.reset(); // сброс знач форм
-    window.form.changeDisabled(formFilters, true); // заблок поля форм
+    filters.reset(); // сброс знач форм
+    window.form.changeDisabled(filters, true); // заблок поля форм
   };
 
   window.map = {
