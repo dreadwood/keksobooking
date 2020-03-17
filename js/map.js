@@ -7,6 +7,11 @@
     low: 10000,
     high: 50000
   };
+  var NAME_PRICE = {
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
+  };
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var pinMain = map.querySelector('.map__pin--main');
@@ -45,15 +50,15 @@
 
   // Фильтр цены
   var filterPrice = function () {
-    if (currentFilter.price === 'low') {
+    if (currentFilter.price === NAME_PRICE.LOW) {
       sortedArray = sortedArray.filter(function (ad) {
         return ad.offer.price < PRICE.low;
       });
-    } else if (currentFilter.price === 'high') {
+    } else if (currentFilter.price === NAME_PRICE.HIGH) {
       sortedArray = sortedArray.filter(function (ad) {
         return ad.offer.price > PRICE.high;
       });
-    } else if (currentFilter.price === 'middle') {
+    } else if (currentFilter.price === NAME_PRICE.MIDDLE) {
       sortedArray = sortedArray.filter(function (ad) {
         return ad.offer.price > PRICE.low && ad.offer.price < PRICE.high;
       });
