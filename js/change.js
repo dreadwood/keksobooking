@@ -30,13 +30,13 @@
   };
 
   var activateHandler = function (evt) {
-    window.data.isLeftButtonEvent(evt, activatePage);
-    window.data.isEnterEvent(evt, activatePage);
+    window.util.isLeftButtonEvent(evt, activatePage);
+    window.util.isEnterEvent(evt, activatePage);
   };
 
   var resetHandler = function (evt) {
-    window.data.isLeftButtonEvent(evt, resetPage);
-    window.data.isEscEvent(evt, resetPage);
+    window.util.isLeftButtonEvent(evt, resetPage);
+    window.util.isEscEvent(evt, resetPage);
   };
 
   // Включние неактивного состояния

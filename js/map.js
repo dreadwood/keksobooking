@@ -29,8 +29,8 @@
 
   // Добавляет pin--ad из фрагмента
   var addPinAd = function () {
-    window.data.deleteElements(mapPins, 'map__pin--ad');
-    window.data.deleteElements(map, 'map__card');
+    window.util.deleteElements(mapPins, 'map__pin--ad');
+    window.util.deleteElements(map, 'map__card');
     mapPins.appendChild(fragmentPin);
   };
 
@@ -96,7 +96,7 @@
     filterFeatures();
     createPins(sortedArray);
 
-    window.data.debounce(addPinAd);
+    window.util.debounce(addPinAd);
   });
 
   // Уведомление отправки
@@ -150,8 +150,8 @@
 
   // Сброс карты
   var resetMap = function () {
-    window.data.deleteElements(map, 'map__card'); // удал картч объявл
-    window.data.deleteElements(mapPins, 'map__pin--ad'); // удал pin--ad
+    window.util.deleteElements(map, 'map__card'); // удал картч объявл
+    window.util.deleteElements(mapPins, 'map__pin--ad'); // удал pin--ad
     pinMain.style = ORIGIN_COORDS_PIN_MAIN; // устан в центр pin--ad
     map.classList.add('map--faded'); // доб стиль блокир
 

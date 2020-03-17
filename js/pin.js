@@ -23,12 +23,11 @@
     var mapPins = document.querySelector('.map__pins');
 
     pinsElement.addEventListener('click', function () {
-      window.data.deleteElements(map, 'map__card');
+      window.util.deleteElements(map, 'map__card');
       resetStatusPin();
       mapPins.after(window.card.renderCard(dataItem));
       pinsElement.classList.add('map__pin--active');
     });
-
 
     return pinsElement;
   };

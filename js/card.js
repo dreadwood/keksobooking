@@ -51,9 +51,9 @@
     }
 
     var closeHandler = function (evt) {
-      window.data.isLeftButtonEvent(evt, closeCard);
-      window.data.isEnterEvent(evt, closeCard);
-      window.data.isEscEvent(evt, closeCard);
+      window.util.isLeftButtonEvent(evt, closeCard);
+      window.util.isEnterEvent(evt, closeCard);
+      window.util.isEscEvent(evt, closeCard);
     };
 
     // Закрытие карточки

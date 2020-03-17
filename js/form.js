@@ -141,7 +141,7 @@
   // Сброс фото аватара и фотографий жилья
   var resetPhotoFormAd = function () {
     previewAvatar.src = 'img/muffin-grey.svg';
-    window.data.deleteElements(photoContainer, 'ad-form__photo--extra');
+    window.util.deleteElements(photoContainer, 'ad-form__photo--extra');
     previewPhoto[0].style = '';
     tooglePreview = true;
   };
