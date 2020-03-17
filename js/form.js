@@ -18,6 +18,12 @@
   var timeinFormAd = formAd.querySelector('#timein');
   var timeoutFormAd = formAd.querySelector('#timeout');
   var resetButtonFormAd = formAd.querySelector('.ad-form__reset');
+  var inputAvatar = formAd.querySelector('#avatar');
+  var previewAvatar = formAd.querySelector('.ad-form-header__preview img');
+  var inputImages = formAd.querySelector('#images');
+  var photoContainer = formAd.querySelector('.ad-form__photo-container');
+  var previewPhoto = formAd.querySelectorAll('.ad-form__photo');
+  var tooglePreview = true; // для фотографий жилья
 
   // Получить кординаты pin--main и вставить в поле адреса
   var getAddress = function (center) {
@@ -94,31 +100,7 @@
     resetButtonFormAd.addEventListener('click', window.change.resetHandler); // сброс форм
   };
 
-  // Сброс формы
-  var resetFormAd = function () {
-    formAd.reset(); // сброс знач форм
-    priceFormAd.placeholder = PRICE_DEFAULT; // устан станд цену в прайс
-    formAd.classList.add('ad-form--disabled'); // доб стиль блокир
-    window.form.changeDisabled(formAd, true); // заблок поля форм
-    resetPhotoFormAd(); // удал аватар и фото
-    getAddress(true); // заполн адрес pin--main
-  };
-
-  // Загрузка аватара и фотографий
-  var inputAvatar = formAd.querySelector('#avatar');
-  var previewAvatar = formAd.querySelector('.ad-form-header__preview img');
-  var inputImages = formAd.querySelector('#images');
-  var photoContainer = formAd.querySelector('.ad-form__photo-container');
-  var previewPhoto = formAd.querySelectorAll('.ad-form__photo');
-  var tooglePreview = true;
-
-  var resetPhotoFormAd = function () {
-    previewAvatar.src = 'img/muffin-grey.svg';
-    window.data.deleteElements(photoContainer, 'ad-form__photo--extra');
-    previewPhoto[0].style = '';
-    tooglePreview = true;
-  };
-
+  // Загрузка аватара
   inputAvatar.addEventListener('change', function () {
     var file = inputAvatar.files[0];
 
@@ -131,6 +113,7 @@
     reader.readAsDataURL(file);
   });
 
+  // Загрузка фотографий
   inputImages.addEventListener('change', function () {
     var files = Array.from(inputImages.files);
 
@@ -155,6 +138,23 @@
     });
   });
 
+  // Сброс фото аватара и фотографий жилья
+  var resetPhotoFormAd = function () {
+    previewAvatar.src = 'img/muffin-grey.svg';
+    window.data.deleteElements(photoContainer, 'ad-form__photo--extra');
+    previewPhoto[0].style = '';
+    tooglePreview = true;
+  };
+
+  // Сброс формы
+  var resetFormAd = function () {
+    formAd.reset(); // сброс знач форм
+    priceFormAd.placeholder = PRICE_DEFAULT; // устан станд цену в прайс
+    formAd.classList.add('ad-form--disabled'); // доб стиль блокир
+    window.form.changeDisabled(formAd, true); // заблок поля форм
+    resetPhotoFormAd(); // удал аватар и фото
+    getAddress(true); // заполн адрес pin--main
+  };
 
   window.form = {
     changeDisabled: changeDisabledForm,

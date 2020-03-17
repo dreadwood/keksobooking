@@ -18,7 +18,6 @@
     pinsElement.querySelector('img').src = dataItem.author.avatar;
     pinsElement.querySelector('img').alt = dataItem.offer.title;
 
-
     // Обработчик для отрисовки карточки похожего обявления
     var map = document.querySelector('.map');
     var mapPins = document.querySelector('.map__pins');

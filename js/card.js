@@ -5,14 +5,14 @@
   var cartTemplate = document.getElementById('card').content.querySelector('.map__card');
 
   var renderCard = function (card) {
-    var cardElement = cartTemplate.cloneNode(true);
-    var typeHouses = {
-      flat: 'Квартира',
-      palace: 'Дворец',
-      house: 'Дом',
-      bungalo: 'Бунгало'
+    var TYPE_HOUSES = {
+      FLAT: 'Квартира',
+      PALACE: 'Дворец',
+      HOUSE: 'Дом',
+      BUNGALO: 'Бунгало'
     };
     var featuresOfHouse = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+    var cardElement = cartTemplate.cloneNode(true);
     var closeButton = cardElement.querySelector('.popup__close');
 
     // Аватарка попапа
@@ -24,7 +24,7 @@
     // Цена
     cardElement.querySelector('.popup__text--price').childNodes[0].textContent = card.offer.price + '₽';
     // Тип жилья
-    cardElement.querySelector('.popup__type').textContent = typeHouses[card.offer.type];
+    cardElement.querySelector('.popup__type').textContent = TYPE_HOUSES[card.offer.type];
     // Колличество гостей и комнат
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     // Время заезда и выезда
@@ -49,7 +49,6 @@
     } else {
       cardFirstPhotoElement.remove();
     }
-
 
     var closeHandler = function (evt) {
       window.data.isLeftButtonEvent(evt, closeCard);

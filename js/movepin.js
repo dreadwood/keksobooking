@@ -1,17 +1,17 @@
 'use strict';
 
 (function () {
+  var COORDS = {
+    MIN_X: -32,
+    MAX_X: 1168,
+    MIN_Y: 49,
+    MAX_Y: 549
+  };
+
   var pinMain = document.querySelector('.map__pin--main');
 
   pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
-    var COORDS = {
-      MIN_X: -32,
-      MAX_X: 1168,
-      MIN_Y: 49,
-      MAX_Y: 549
-    };
 
     var startCoords = {
       x: evt.clientX,
