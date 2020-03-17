@@ -14,6 +14,7 @@
     var featuresOfHouse = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     var cardElement = cartTemplate.cloneNode(true);
     var closeButton = cardElement.querySelector('.popup__close');
+    var cardFirstPhotoElement = cardElement.querySelector('.popup__photo');
 
     // Аватарка попапа
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
@@ -30,22 +31,23 @@
     // Время заезда и выезда
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     // Удобства
-    for (var k = 0; k < featuresOfHouse.length; k++) {
-      if (card.offer.features.includes(featuresOfHouse[k]) === false) {
-        cardElement.querySelector('.popup__feature--' + featuresOfHouse[k]).remove();
+    featuresOfHouse.forEach(function (feature) {
+      if (card.offer.features.includes(feature) === false) {
+        cardElement.querySelector('.popup__feature--' + feature).remove();
       }
-    }
+    });
     // Описание
     cardElement.querySelector('.popup__description').textContent = card.offer.description;
     // Фото
-    var cardFirstPhotoElement = cardElement.querySelector('.popup__photo');
     if (card.offer.photos.length > 0) {
       cardFirstPhotoElement.src = card.offer.photos[0];
-      for (var j = 1; j < card.offer.photos.length; j++) {
-        var cardPhotoElement = cardFirstPhotoElement.cloneNode(true);
-        cardPhotoElement.src = card.offer.photos[j];
-        cardElement.querySelector('.popup__photos').appendChild(cardPhotoElement);
-      }
+      card.offer.photos.forEach(function (photo, index) {
+        if (index > 0) {
+          var cardPhotoElement = cardFirstPhotoElement.cloneNode(true);
+          cardPhotoElement.src = photo;
+          cardElement.querySelector('.popup__photos').appendChild(cardPhotoElement);
+        }
+      });
     } else {
       cardFirstPhotoElement.remove();
     }
