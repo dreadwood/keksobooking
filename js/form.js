@@ -32,25 +32,27 @@
 
   // Заблокировать поля формы
   var changeDisabledForm = function (form, block) {
-    var fieldsetOfForm = form.querySelectorAll('fieldset, select');
+    var fieldsetsOfForm = form.querySelectorAll('fieldset, select');
     if (block) {
-      for (var j = 0; j < fieldsetOfForm.length; j++) {
-        fieldsetOfForm[j].setAttribute('disabled', '');
-      }
+      fieldsetsOfForm.forEach(function (fieldset) {
+        fieldset.setAttribute('disabled', '');
+      });
     } else {
-      for (var k = 0; k < fieldsetOfForm.length; k++) {
-        fieldsetOfForm[k].removeAttribute('disabled');
-      }
+      fieldsetsOfForm.forEach(function (fieldset) {
+        fieldset.removeAttribute('disabled');
+      });
     }
   };
 
   // Валидация комнат и гостей
   var validateRoomsAdnCapacity = function () {
-    if (numberOfRoomsFormAd.value === '100' && capacityRoomFormAd.value !== '0') {
+    var rooms = Number(numberOfRoomsFormAd.value);
+    var guests = Number(capacityRoomFormAd.value);
+    if (rooms === 100 && guests !== 0) {
       numberOfRoomsFormAd.setCustomValidity('Такое колличество комнат не для гостей');
-    } else if (numberOfRoomsFormAd.value !== '100' && capacityRoomFormAd.value === '0') {
+    } else if (rooms !== 100 && guests === 0) {
       numberOfRoomsFormAd.setCustomValidity('"Не для гостей" можно выбрать только 100 комнат');
-    } else if (Number(numberOfRoomsFormAd.value) < Number(capacityRoomFormAd.value)) {
+    } else if (rooms < guests) {
       numberOfRoomsFormAd.setCustomValidity('Колличество комнат должно быть больше или равно колличеству гостей');
     } else {
       numberOfRoomsFormAd.setCustomValidity('');
