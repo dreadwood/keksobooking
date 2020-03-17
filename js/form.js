@@ -94,8 +94,61 @@
     formAd.reset(); // сброс знач форм
     formAd.classList.add('ad-form--disabled'); // доб стиль блокир
     window.form.changeDisabled(formAd, true); // заблок поля форм
+    resetPhotoFormAd(); // удал аватар и фото
     getAddress(true); // заполн адрес pin--main
   };
+
+  // Загрузка аватара и фотографий
+  var inputAvatar = formAd.querySelector('#avatar');
+  var previewAvatar = formAd.querySelector('.ad-form-header__preview img');
+  var inputImages = formAd.querySelector('#images');
+  var photoContainer = formAd.querySelector('.ad-form__photo-container');
+  var previewPhoto = formAd.querySelectorAll('.ad-form__photo');
+  var tooglePreview = true;
+
+  var resetPhotoFormAd = function () {
+    previewAvatar.src = 'img/muffin-grey.svg';
+    window.data.deleteElements(photoContainer, 'ad-form__photo--extra');
+    previewPhoto[0].style = '';
+    tooglePreview = true;
+  };
+
+  inputAvatar.addEventListener('change', function () {
+    var file = inputAvatar.files[0];
+
+    var reader = new FileReader();
+
+    reader.addEventListener('load', function () {
+      previewAvatar.src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
+  });
+
+  inputImages.addEventListener('change', function () {
+    var files = Array.from(inputImages.files);
+
+    files.forEach(function (file) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        previewPhoto = formAd.querySelectorAll('.ad-form__photo');
+        var stylePreview = 'background: #e4e4de url("' + reader.result + '") top/100% no-repeat;';
+        if (tooglePreview) {
+          previewPhoto[0].style = stylePreview;
+          tooglePreview = false;
+        } else {
+          var previewPhotoElement = previewPhoto[0].cloneNode();
+          previewPhotoElement.classList.add('ad-form__photo--extra');
+          previewPhotoElement.style = stylePreview;
+          photoContainer.appendChild(previewPhotoElement);
+        }
+      });
+
+      reader.readAsDataURL(file);
+    });
+  });
+
 
   window.form = {
     changeDisabled: changeDisabledForm,
