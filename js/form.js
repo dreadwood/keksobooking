@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var PRICE_DEFAULT = 1000;
+  var MIN_PRICE_HOUSING_TYPE = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
   var formAd = document.querySelector('.ad-form');
   var titleFormAd = formAd.querySelector('#title');
   var addressFormAd = formAd.querySelector('#address');
@@ -11,12 +18,6 @@
   var timeinFormAd = formAd.querySelector('#timein');
   var timeoutFormAd = formAd.querySelector('#timeout');
   var resetButtonFormAd = formAd.querySelector('.ad-form__reset');
-  var minPriceHousingType = {
-    bungalo: 0,
-    flat: 1000,
-    house: 5000,
-    palace: 10000
-  };
 
   // Получить кординаты pin--main и вставить в поле адреса
   var getAddress = function (center) {
@@ -52,7 +53,7 @@
 
   // Валидация типа жилья и цены
   var validatePriceRoom = function () {
-    var minPrice = minPriceHousingType[housingTypeFormAd.value];
+    var minPrice = MIN_PRICE_HOUSING_TYPE[housingTypeFormAd.value];
     priceFormAd.placeholder = minPrice;
     if (priceFormAd.value < minPrice) {
       priceFormAd.setCustomValidity('Минимальная цена данного типа жилья ' + minPrice + ' рублей');
@@ -96,6 +97,7 @@
   // Сброс формы
   var resetFormAd = function () {
     formAd.reset(); // сброс знач форм
+    priceFormAd.placeholder = PRICE_DEFAULT; // устан станд цену в прайс
     formAd.classList.add('ad-form--disabled'); // доб стиль блокир
     window.form.changeDisabled(formAd, true); // заблок поля форм
     resetPhotoFormAd(); // удал аватар и фото
