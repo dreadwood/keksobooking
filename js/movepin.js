@@ -9,8 +9,8 @@
     var COORDS = {
       MIN_X: -32,
       MAX_X: 1168,
-      MIN_Y: 130,
-      MAX_Y: 630
+      MIN_Y: 49,
+      MAX_Y: 549
     };
 
     var startCoords = {
