@@ -25,7 +25,7 @@
     pinsElement.addEventListener('click', function () {
       window.util.deleteElements(map, 'map__card');
       resetStatusPin();
-      mapPins.after(window.card.renderCard(dataItem));
+      mapPins.after(window.card.render(dataItem));
       pinsElement.classList.add('map__pin--active');
     });
 

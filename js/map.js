@@ -3,11 +3,11 @@
 (function () {
   var ORIGIN_COORDS_PIN_MAIN = 'left: 570px; top: 375px;';
   var MAX_PINS_AD = 5;
-  var PRICE = {
+  var price = {
     low: 10000,
     high: 50000
   };
-  var NAME_PRICE = {
+  var namePrice = {
     LOW: 'low',
     MIDDLE: 'middle',
     HIGH: 'high'
@@ -50,17 +50,17 @@
 
   // Фильтр цены
   var filterPrice = function () {
-    if (currentFilter.price === NAME_PRICE.LOW) {
+    if (currentFilter.price === namePrice.LOW) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price < PRICE.low;
+        return ad.offer.price < price.low;
       });
-    } else if (currentFilter.price === NAME_PRICE.HIGH) {
+    } else if (currentFilter.price === namePrice.HIGH) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price > PRICE.high;
+        return ad.offer.price > price.high;
       });
-    } else if (currentFilter.price === NAME_PRICE.MIDDLE) {
+    } else if (currentFilter.price === namePrice.MIDDLE) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price > PRICE.low && ad.offer.price < PRICE.high;
+        return ad.offer.price > price.low && ad.offer.price < price.high;
       });
     }
   };

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var COORDS = {
+  var coords = {
     MIN_X: -32,
     MAX_X: 1168,
     MIN_Y: 49,
@@ -46,8 +46,8 @@
         return currentCoord;
       };
 
-      pinMain.style.top = getPinMainCoord(currentY, COORDS.MAX_Y, COORDS.MIN_Y) + 'px';
-      pinMain.style.left = getPinMainCoord(currentX, COORDS.MAX_X, COORDS.MIN_X) + 'px';
+      pinMain.style.top = getPinMainCoord(currentY, coords.MAX_Y, coords.MIN_Y) + 'px';
+      pinMain.style.left = getPinMainCoord(currentX, coords.MAX_X, coords.MIN_X) + 'px';
 
       window.form.address();
     };

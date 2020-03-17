@@ -4,7 +4,7 @@
   var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
   var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
 
-  var STATUS_CODE = {
+  var statusCode = {
     OK: 200
   };
 
@@ -13,7 +13,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS_CODE.OK) {
+      if (xhr.status === statusCode.OK) {
         onLoad(xhr.response);
       } else {
         onError('Ошибочка вышла: ' + xhr.status + ' ' + xhr.statusText);
@@ -37,7 +37,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS_CODE.OK) {
+      if (xhr.status === statusCode.OK) {
         upLoad();
       } else {
         onError('Ошибочка вышла: ' + xhr.status + ' ' + xhr.statusText);

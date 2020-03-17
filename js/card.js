@@ -5,7 +5,7 @@
   var cartTemplate = document.getElementById('card').content.querySelector('.map__card');
 
   var renderCard = function (card) {
-    var TYPE_HOUSES = {
+    var typeHouses = {
       FLAT: 'Квартира',
       PALACE: 'Дворец',
       HOUSE: 'Дом',
@@ -25,7 +25,7 @@
     // Цена
     cardElement.querySelector('.popup__text--price').childNodes[0].textContent = card.offer.price + '₽';
     // Тип жилья
-    cardElement.querySelector('.popup__type').textContent = TYPE_HOUSES[card.offer.type];
+    cardElement.querySelector('.popup__type').textContent = typeHouses[card.offer.type];
     // Колличество гостей и комнат
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     // Время заезда и выезда
@@ -74,6 +74,6 @@
   };
 
   window.card = {
-    renderCard: renderCard
+    render: renderCard
   };
 })();

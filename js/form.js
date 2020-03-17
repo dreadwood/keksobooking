@@ -2,7 +2,7 @@
 
 (function () {
   var PRICE_DEFAULT = 1000;
-  var MIN_PRICE_HOUSING_TYPE = {
+  var minPricaHousingType = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
@@ -61,7 +61,7 @@
 
   // Валидация типа жилья и цены
   var validatePriceRoom = function () {
-    var minPrice = MIN_PRICE_HOUSING_TYPE[housingTypeFormAd.value];
+    var minPrice = minPricaHousingType[housingTypeFormAd.value];
     priceFormAd.placeholder = minPrice;
     if (priceFormAd.value < minPrice) {
       priceFormAd.setCustomValidity('Минимальная цена данного типа жилья ' + minPrice + ' рублей');
