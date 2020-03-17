@@ -39,7 +39,11 @@
 
   // Валидация комнат и гостей
   var validateRoomsAdnCapacity = function () {
-    if (Number(numberOfRoomsFormAd.value) < Number(capacityRoomFormAd.value)) {
+    if (numberOfRoomsFormAd.value === '100' && capacityRoomFormAd.value !== '0') {
+      numberOfRoomsFormAd.setCustomValidity('Такое колличество комнат не для гостей');
+    } else if (numberOfRoomsFormAd.value !== '100' && capacityRoomFormAd.value === '0') {
+      numberOfRoomsFormAd.setCustomValidity('"Не для гостей" можно выбрать только 100 комнат');
+    } else if (Number(numberOfRoomsFormAd.value) < Number(capacityRoomFormAd.value)) {
       numberOfRoomsFormAd.setCustomValidity('Колличество комнат должно быть больше или равно колличеству гостей');
     } else {
       numberOfRoomsFormAd.setCustomValidity('');
