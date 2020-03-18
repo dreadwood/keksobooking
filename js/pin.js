@@ -10,6 +10,8 @@
 
   // Создание шаблона для отрисовки меток
   var renderPins = function (dataItem) {
+    var map = document.querySelector('.map');
+    var mapPins = document.querySelector('.map__pins');
     var pinTemplate = document.getElementById('pin').content.querySelector('.map__pin');
     var pinsElement = pinTemplate.cloneNode(true);
 
@@ -19,9 +21,6 @@
     pinsElement.querySelector('img').alt = dataItem.offer.title;
 
     // Обработчик для отрисовки карточки похожего обявления
-    var map = document.querySelector('.map');
-    var mapPins = document.querySelector('.map__pins');
-
     pinsElement.addEventListener('click', function () {
       window.util.deleteElements(map, 'map__card');
       resetStatusPin();

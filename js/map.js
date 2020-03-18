@@ -137,9 +137,9 @@
 
   // Удалить уведомление
   var deleteNotification = function () {
-    var notificationElement = document.querySelector('.notification');
-    if (notificationElement) {
-      notificationElement.remove();
+    var notification = document.querySelector('.notification');
+    if (notification) {
+      notification.remove();
     }
   };
 

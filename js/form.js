@@ -9,20 +9,20 @@
     palace: 10000
   };
   var formAd = document.querySelector('.ad-form');
-  var titleFormAd = formAd.querySelector('#title');
-  var addressFormAd = formAd.querySelector('#address');
-  var numberOfRoomsFormAd = formAd.querySelector('#room_number');
-  var capacityRoomFormAd = formAd.querySelector('#capacity');
-  var housingTypeFormAd = formAd.querySelector('#type');
-  var priceFormAd = formAd.querySelector('#price');
-  var timeinFormAd = formAd.querySelector('#timein');
-  var timeoutFormAd = formAd.querySelector('#timeout');
-  var resetButtonFormAd = formAd.querySelector('.ad-form__reset');
-  var inputAvatar = formAd.querySelector('#avatar');
+  var inputAvatar = document.getElementById('avatar');
+  var titleFormAd = document.getElementById('title');
+  var addressFormAd = document.getElementById('address');
+  var numberOfRoomsFormAd = document.getElementById('room_number');
+  var capacityRoomFormAd = document.getElementById('capacity');
+  var housingTypeFormAd = document.getElementById('type');
+  var priceFormAd = document.getElementById('price');
+  var timeinFormAd = document.getElementById('timein');
+  var timeoutFormAd = document.getElementById('timeout');
+  var inputImages = document.getElementById('images');
   var previewAvatar = formAd.querySelector('.ad-form-header__preview img');
-  var inputImages = formAd.querySelector('#images');
   var photoContainer = formAd.querySelector('.ad-form__photo-container');
   var previewPhoto = formAd.querySelectorAll('.ad-form__photo');
+  var resetButtonFormAd = formAd.querySelector('.ad-form__reset');
   var tooglePreview = true; // для фотографий жилья
 
   // Получить кординаты pin--main и вставить в поле адреса
