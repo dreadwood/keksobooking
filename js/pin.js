@@ -18,18 +18,16 @@
     pinsElement.querySelector('img').src = dataItem.author.avatar;
     pinsElement.querySelector('img').alt = dataItem.offer.title;
 
-
     // Обработчик для отрисовки карточки похожего обявления
     var map = document.querySelector('.map');
     var mapPins = document.querySelector('.map__pins');
 
     pinsElement.addEventListener('click', function () {
-      window.data.deleteElements(map, 'map__card');
+      window.util.deleteElements(map, 'map__card');
       resetStatusPin();
-      mapPins.after(window.card.renderCard(dataItem));
+      mapPins.after(window.card.render(dataItem));
       pinsElement.classList.add('map__pin--active');
     });
-
 
     return pinsElement;
   };
