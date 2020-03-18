@@ -2,7 +2,7 @@
 
 (function () {
   var PRICE_DEFAULT = 1000;
-  var minPricaHousingType = {
+  var minHousingPriceMap = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
@@ -61,7 +61,7 @@
 
   // Валидация типа жилья и цены
   var validatePriceRoom = function () {
-    var minPrice = minPricaHousingType[housingTypeFormAd.value];
+    var minPrice = minHousingPriceMap[housingTypeFormAd.value];
     priceFormAd.placeholder = minPrice;
     if (priceFormAd.value < minPrice) {
       priceFormAd.setCustomValidity('Минимальная цена данного типа жилья ' + minPrice + ' рублей');
@@ -99,7 +99,7 @@
     titleFormAd.setAttribute('required', ''); // устан обязат атриб полю title
     formAd.addEventListener('change', validationFormAdHandler); // доб валидац
 
-    resetButtonFormAd.addEventListener('click', window.change.resetHandler); // сброс форм
+    resetButtonFormAd.addEventListener('click', window.change.pageResetHandler); // сброс форм
   };
 
   // Загрузка аватара
@@ -160,7 +160,7 @@
 
   window.form = {
     changeDisabled: changeDisabledForm,
-    address: getAddress,
+    getAddress: getAddress,
     activate: activateFormAd,
     reset: resetFormAd
   };

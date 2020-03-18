@@ -3,11 +3,11 @@
 (function () {
   var ORIGIN_COORDS_PIN_MAIN = 'left: 570px; top: 375px;';
   var MAX_PINS_AD = 5;
-  var price = {
-    low: 10000,
-    high: 50000
+  var Price = {
+    LOW: 10000,
+    HIGH: 50000
   };
-  var namePrice = {
+  var NamePrice = {
     LOW: 'low',
     MIDDLE: 'middle',
     HIGH: 'high'
@@ -50,17 +50,17 @@
 
   // Фильтр цены
   var filterPrice = function () {
-    if (currentFilter.price === namePrice.LOW) {
+    if (currentFilter.price === NamePrice.LOW) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price < price.low;
+        return ad.offer.price < Price.low;
       });
-    } else if (currentFilter.price === namePrice.HIGH) {
+    } else if (currentFilter.price === NamePrice.HIGH) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price > price.high;
+        return ad.offer.price > Price.high;
       });
-    } else if (currentFilter.price === namePrice.MIDDLE) {
+    } else if (currentFilter.price === NamePrice.MIDDLE) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price > price.low && ad.offer.price < price.high;
+        return ad.offer.price > Price.low && ad.offer.price < Price.high;
       });
     }
   };
@@ -90,7 +90,7 @@
     });
   };
 
-  // Обработчик формы фильтров
+  // Изменение формы фильтров
   filters.addEventListener('change', function () {
     getCurrentFilters();
     sortedArray = houseCards;
@@ -112,8 +112,8 @@
 
     successElement.classList.add('notification');
 
-    document.addEventListener('click', window.change.resetHandler);
-    document.addEventListener('keydown', window.change.resetHandler);
+    document.addEventListener('click', window.change.pageResetHandler);
+    document.addEventListener('keydown', window.change.pageResetHandler);
 
     mainPage.appendChild(successElement);
   };
@@ -129,8 +129,8 @@
     errorElement.classList.add('notification');
     errorMessage.textContent = message;
 
-    errorButton.addEventListener('click', window.change.resetHandler);
-    document.addEventListener('keydown', window.change.resetHandler);
+    errorButton.addEventListener('click', window.change.pageResetHandler);
+    document.addEventListener('keydown', window.change.pageResetHandler);
 
     mainPage.appendChild(errorElement);
   };
@@ -169,7 +169,7 @@
     createSuccess: createSuccess,
     createError: createError,
     deleteNotification: deleteNotification,
-    activateMap: activateMap,
-    resetMap: resetMap
+    activate: activateMap,
+    reset: resetMap
   };
 })();

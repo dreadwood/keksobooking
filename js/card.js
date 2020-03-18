@@ -1,16 +1,16 @@
 'use strict';
 
 (function () {
-  // Создание шаблона для карточки предложения
+  var HousingType = {
+    FLAT: 'Квартира',
+    PALACE: 'Дворец',
+    HOUSE: 'Дом',
+    BUNGALO: 'Бунгало'
+  };
   var cartTemplate = document.getElementById('card').content.querySelector('.map__card');
 
+  // Создание шаблона для карточки предложения
   var renderCard = function (card) {
-    var typeHouses = {
-      FLAT: 'Квартира',
-      PALACE: 'Дворец',
-      HOUSE: 'Дом',
-      BUNGALO: 'Бунгало'
-    };
     var featuresOfHouse = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     var cardElement = cartTemplate.cloneNode(true);
     var closeButton = cardElement.querySelector('.popup__close');
@@ -25,7 +25,7 @@
     // Цена
     cardElement.querySelector('.popup__text--price').childNodes[0].textContent = card.offer.price + '₽';
     // Тип жилья
-    cardElement.querySelector('.popup__type').textContent = typeHouses[card.offer.type];
+    cardElement.querySelector('.popup__type').textContent = HousingType[card.offer.type];
     // Колличество гостей и комнат
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     // Время заезда и выезда
@@ -52,7 +52,7 @@
       cardFirstPhotoElement.remove();
     }
 
-    var closeHandler = function (evt) {
+    var cardCloseHandler = function (evt) {
       window.util.isLeftButtonEvent(evt, closeCard);
       window.util.isEnterEvent(evt, closeCard);
       window.util.isEscEvent(evt, closeCard);
@@ -60,15 +60,15 @@
 
     // Закрытие карточки
     var closeCard = function () {
-      closeButton.removeEventListener('click', closeHandler);
-      document.removeEventListener('keydown', closeHandler);
+      closeButton.removeEventListener('click', cardCloseHandler);
+      document.removeEventListener('keydown', cardCloseHandler);
 
       cardElement.remove();
       window.pin.resetStatus();
     };
 
-    closeButton.addEventListener('click', closeHandler);
-    document.addEventListener('keydown', closeHandler);
+    closeButton.addEventListener('click', cardCloseHandler);
+    document.addEventListener('keydown', cardCloseHandler);
 
     return cardElement;
   };
