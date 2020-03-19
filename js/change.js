@@ -10,8 +10,8 @@
 
     window.form.activate(); // актив формы
 
-    pinMain.removeEventListener('click', pageActivateHandler); // удал событ актив pin--main
-    pinMain.removeEventListener('keydown', pageActivateHandler);
+    pinMain.removeEventListener('mousedown', pinMainClickHandler); // удал событ актив pin--main
+    pinMain.removeEventListener('keydown', pinMainPressKeyHandler);
   };
 
   // Сброс страницы в неактивное состояние
@@ -22,31 +22,40 @@
 
     window.map.deleteNotification(); // удал увед отправ/ошибки
 
-    pinMain.addEventListener('click', pageActivateHandler); // доб событ актив pin--main
-    pinMain.addEventListener('keydown', pageActivateHandler);
+    pinMain.addEventListener('mousedown', pinMainClickHandler); // доб событ актив pin--main
+    pinMain.addEventListener('keydown', pinMainPressKeyHandler);
 
-    document.removeEventListener('click', pageResetHandler); // удал событ сброс
-    document.removeEventListener('keydown', pageResetHandler);
+    document.removeEventListener('mousedown', pageClickHandler); // удал событ сброс
+    document.removeEventListener('keydown', pageEscPressHandler);
   };
 
-  var pageActivateHandler = function (evt) {
+  // Активация страницы
+  var pinMainClickHandler = function (evt) {
     window.util.isLeftButtonEvent(evt, activatePage);
+  };
+
+  var pinMainPressKeyHandler = function (evt) {
     window.util.isEnterEvent(evt, activatePage);
   };
 
-  var pageResetHandler = function (evt) {
-    window.util.isLeftButtonEvent(evt, resetPage);
+  var pageEscPressHandler = function (evt) {
     window.util.isEscEvent(evt, resetPage);
+  };
+
+  var pageClickHandler = function (evt) {
+    window.util.isLeftButtonEvent(evt, resetPage);
   };
 
   // Включние неактивного состояния
   resetPage();
 
   // Обработчик для активного состояния
-  pinMain.addEventListener('click', pageActivateHandler);
-  pinMain.addEventListener('keydown', pageActivateHandler);
+  pinMain.addEventListener('mousedown', pinMainClickHandler);
+  pinMain.addEventListener('keydown', pinMainPressKeyHandler);
 
   window.change = {
-    pageResetHandler: pageResetHandler
+    resetPage: resetPage,
+    pageEscPressHandler: pageEscPressHandler,
+    pageClickHandler: pageClickHandler
   };
 })();

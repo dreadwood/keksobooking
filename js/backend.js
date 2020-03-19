@@ -8,39 +8,39 @@
     OK: 200
   };
 
-  var loadData = function (onLoad, onError) {
+  var loadData = function (loadCallback, errorCallback) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === statusCode.OK) {
-        onLoad(xhr.response);
+        loadCallback(xhr.response);
       } else {
-        onError('Ошибочка вышла: ' + xhr.status + ' ' + xhr.statusText);
+        errorCallback('Ошибочка вышла: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      errorCallback('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      errorCallback('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
     xhr.open('GET', URL_LOAD);
     xhr.send();
   };
 
-  var uploadData = function (data, upLoad, onError) {
+  var uploadData = function (data, upLoadCallback, onErrorCallback) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === statusCode.OK) {
-        upLoad();
+        upLoadCallback();
       } else {
-        onError('Ошибочка вышла: ' + xhr.status + ' ' + xhr.statusText);
+        onErrorCallback('Ошибочка вышла: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 

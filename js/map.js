@@ -17,7 +17,7 @@
   var pinMain = map.querySelector('.map__pin--main');
   var filters = map.querySelector('.map__filters');
   var selectFilters = filters.querySelectorAll('select');
-  var housingFeatures = document.getElementById('housing-features');
+  var housingFeatures = map.querySelector('#housing-features');
   var checkboxFilters = housingFeatures.querySelectorAll('input');
   var houseCards; // массив загруж данных
   var sortedArray; // массив сорт данных
@@ -52,15 +52,15 @@
   var filterPrice = function () {
     if (currentFilter.price === NamePrice.LOW) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price < Price.low;
+        return ad.offer.price < Price.LOW;
       });
     } else if (currentFilter.price === NamePrice.HIGH) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price > Price.high;
+        return ad.offer.price > Price.HIGH;
       });
     } else if (currentFilter.price === NamePrice.MIDDLE) {
       sortedArray = sortedArray.filter(function (ad) {
-        return ad.offer.price > Price.low && ad.offer.price < Price.high;
+        return ad.offer.price >= Price.LOW && ad.offer.price <= Price.HIGH;
       });
     }
   };
@@ -82,12 +82,12 @@
       currentFilter[itemFilter.name.slice(indexCut)] = itemFilter.value;
     });
 
-    currentFilter.features = [];
-    checkboxFilters.forEach(function (itemFilter) {
-      if (itemFilter.checked === true) {
-        currentFilter.features.push(itemFilter.value);
+    currentFilter.features = Array.from(checkboxFilters).reduce(function (result, itemFilter) {
+      if (itemFilter.checked) {
+        result.push(itemFilter.value);
       }
-    });
+      return result;
+    }, []);
   };
 
   // Изменение формы фильтров
@@ -107,21 +107,26 @@
   // Уведомление отправки
   var createSuccess = function () {
     var mainPage = document.querySelector('main');
-    var successTemplate = document.getElementById('success').content.querySelector('.success');
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
 
     successElement.classList.add('notification');
 
-    document.addEventListener('click', window.change.pageResetHandler);
-    document.addEventListener('keydown', window.change.pageResetHandler);
+    document.addEventListener('mousedown', window.change.pageClickHandler);
+    document.addEventListener('keydown', window.change.pageEscPressHandler);
 
     mainPage.appendChild(successElement);
+  };
+
+  // Сброс страницы
+  var buttonNotificationClickHandler = function (evt) {
+    window.util.isLeftButtonEvent(evt, window.change.resetPage);
   };
 
   // Уведомление ошибки
   var createError = function (message) {
     var mainPage = document.querySelector('main');
-    var errorTemplate = document.getElementById('error').content.querySelector('.error');
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
     var errorMessage = errorElement.querySelector('.error__message');
     var errorButton = errorElement.querySelector('.error__button');
@@ -129,8 +134,8 @@
     errorElement.classList.add('notification');
     errorMessage.textContent = message;
 
-    errorButton.addEventListener('click', window.change.pageResetHandler);
-    document.addEventListener('keydown', window.change.pageResetHandler);
+    errorButton.addEventListener('mousedown', buttonNotificationClickHandler);
+    document.addEventListener('keydown', window.change.pageClickHandler);
 
     mainPage.appendChild(errorElement);
   };

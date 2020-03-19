@@ -12,7 +12,7 @@
   var renderPins = function (dataItem) {
     var map = document.querySelector('.map');
     var mapPins = document.querySelector('.map__pins');
-    var pinTemplate = document.getElementById('pin').content.querySelector('.map__pin');
+    var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
     var pinsElement = pinTemplate.cloneNode(true);
 
     pinsElement.classList.add('map__pin--ad');
@@ -59,8 +59,8 @@
 
   window.pin = {
     render: renderPins,
-    coordsOfCenterMain: getPinCoordsCenter,
-    coordsOfPointerMain: getPinCoordsPointer,
+    getCoordsOfCenterMain: getPinCoordsCenter,
+    getCoordsOfPointerMain: getPinCoordsPointer,
     resetStatus: resetStatusPin
   };
 })();

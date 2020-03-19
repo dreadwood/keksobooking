@@ -7,7 +7,7 @@
     HOUSE: 'Дом',
     BUNGALO: 'Бунгало'
   };
-  var cartTemplate = document.getElementById('card').content.querySelector('.map__card');
+  var cartTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   // Создание шаблона для карточки предложения
   var renderCard = function (card) {
@@ -32,7 +32,7 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     // Удобства
     featuresOfHouse.forEach(function (feature) {
-      if (card.offer.features.includes(feature) === false) {
+      if (!card.offer.features.includes(feature)) {
         cardElement.querySelector('.popup__feature--' + feature).remove();
       }
     });
@@ -52,23 +52,25 @@
       cardFirstPhotoElement.remove();
     }
 
-    var cardCloseHandler = function (evt) {
-      window.util.isLeftButtonEvent(evt, closeCard);
-      window.util.isEnterEvent(evt, closeCard);
+    var cardEscPressHandler = function (evt) {
       window.util.isEscEvent(evt, closeCard);
+    };
+
+    var cardCloseClickHandler = function (evt) {
+      window.util.isLeftButtonEvent(evt, closeCard);
     };
 
     // Закрытие карточки
     var closeCard = function () {
-      closeButton.removeEventListener('click', cardCloseHandler);
-      document.removeEventListener('keydown', cardCloseHandler);
+      closeButton.removeEventListener('click', cardCloseClickHandler);
+      document.removeEventListener('keydown', cardEscPressHandler);
 
       cardElement.remove();
       window.pin.resetStatus();
     };
 
-    closeButton.addEventListener('click', cardCloseHandler);
-    document.addEventListener('keydown', cardCloseHandler);
+    closeButton.addEventListener('click', cardCloseClickHandler);
+    document.addEventListener('keydown', cardEscPressHandler);
 
     return cardElement;
   };

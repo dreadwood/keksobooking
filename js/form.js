@@ -9,16 +9,16 @@
     palace: 10000
   };
   var formAd = document.querySelector('.ad-form');
-  var inputAvatar = document.getElementById('avatar');
-  var titleFormAd = document.getElementById('title');
-  var addressFormAd = document.getElementById('address');
-  var numberOfRoomsFormAd = document.getElementById('room_number');
-  var capacityRoomFormAd = document.getElementById('capacity');
-  var housingTypeFormAd = document.getElementById('type');
-  var priceFormAd = document.getElementById('price');
-  var timeinFormAd = document.getElementById('timein');
-  var timeoutFormAd = document.getElementById('timeout');
-  var inputImages = document.getElementById('images');
+  var inputAvatar = formAd.querySelector('#avatar');
+  var titleFormAd = formAd.querySelector('#title');
+  var addressFormAd = formAd.querySelector('#address');
+  var numberOfRoomsFormAd = formAd.querySelector('#room_number');
+  var capacityRoomFormAd = formAd.querySelector('#capacity');
+  var housingTypeFormAd = formAd.querySelector('#type');
+  var priceFormAd = formAd.querySelector('#price');
+  var timeinFormAd = formAd.querySelector('#timein');
+  var timeoutFormAd = formAd.querySelector('#timeout');
+  var inputImages = formAd.querySelector('#images');
   var previewAvatar = formAd.querySelector('.ad-form-header__preview img');
   var photoContainer = formAd.querySelector('.ad-form__photo-container');
   var previewPhoto = formAd.querySelectorAll('.ad-form__photo');
@@ -27,7 +27,7 @@
 
   // Получить кординаты pin--main и вставить в поле адреса
   var getAddress = function (center) {
-    addressFormAd.defaultValue = center ? window.pin.coordsOfCenterMain() : window.pin.coordsOfPointerMain();
+    addressFormAd.defaultValue = center ? window.pin.getCoordsOfCenterMain() : window.pin.getCoordsOfPointerMain();
   };
 
   // Заблокировать поля формы
@@ -79,7 +79,7 @@
   };
 
   // Вся валидация форм
-  var validationFormAdHandler = function (evt) {
+  var formChangeHandler = function (evt) {
     validateRoomsAdnCapacity();
     validatePriceRoom();
     validateTime(evt);
@@ -91,15 +91,20 @@
     window.backend.upload(new FormData(formAd), window.map.createSuccess, window.map.createError);
   });
 
+  // Сброс страницы
+  var formResetHandler = function (evt) {
+    window.util.isLeftButtonEvent(evt, window.change.resetPage);
+  };
+
   // Активация формы
   var activateFormAd = function () {
     formAd.classList.remove('ad-form--disabled'); // удал стиль блокир
     changeDisabledForm(formAd, false); // разблок поля форм
     getAddress(); // заполн адрес pin--main
     titleFormAd.setAttribute('required', ''); // устан обязат атриб полю title
-    formAd.addEventListener('change', validationFormAdHandler); // доб валидац
+    formAd.addEventListener('change', formChangeHandler); // доб валидац
 
-    resetButtonFormAd.addEventListener('click', window.change.pageResetHandler); // сброс форм
+    resetButtonFormAd.addEventListener('click', formResetHandler); // сброс страниц
   };
 
   // Загрузка аватара
