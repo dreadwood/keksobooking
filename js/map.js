@@ -2,7 +2,7 @@
 
 (function () {
   var ORIGIN_COORDS_PIN_MAIN = 'left: 570px; top: 375px;';
-  var MAX_PINS_AD = 5;
+  var MAX_PINS_AD = 10;
   var Price = {
     LOW: 10000,
     HIGH: 50000
