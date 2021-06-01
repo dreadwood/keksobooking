@@ -528,10 +528,12 @@ fieldset {
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
-
+        align-items: center;
+   -webkit-box-pack: center;
+       -ms-flex-pack: center;
+    justify-content: center;
+  flex-shrink: 0;
   margin-right: 10px;
-  padding: 0 15px;
 
   width: 70px;
   height: 70px;
@@ -540,6 +542,11 @@ fieldset {
 
   border-radius: 5px;
   background-color: #dadada;
+  overflow: hidden;
+}
+
+.ad-form-header__preview-img {
+  object-fit: cover;
 }
 
 .ad-form__field {

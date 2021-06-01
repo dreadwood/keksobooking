@@ -19,7 +19,7 @@
   var timeinFormAd = formAd.querySelector('#timein');
   var timeoutFormAd = formAd.querySelector('#timeout');
   var inputImages = formAd.querySelector('#images');
-  var previewAvatar = formAd.querySelector('.ad-form-header__preview img');
+  var previewAvatar = formAd.querySelector('.ad-form-header__preview-img');
   var photoContainer = formAd.querySelector('.ad-form__photo-container');
   var previewPhoto = formAd.querySelectorAll('.ad-form__photo');
   var resetButtonFormAd = formAd.querySelector('.ad-form__reset');
@@ -115,6 +115,7 @@
 
     reader.addEventListener('load', function () {
       previewAvatar.src = reader.result;
+      previewAvatar.style = 'width: 100%; height: 100%';
     });
 
     reader.readAsDataURL(file);
@@ -129,7 +130,7 @@
 
       reader.addEventListener('load', function () {
         previewPhoto = formAd.querySelectorAll('.ad-form__photo');
-        var stylePreview = 'background: #e4e4de url("' + reader.result + '") top/100% no-repeat;';
+        var stylePreview = 'background-color: #e4e4de; background-image: url("' + reader.result + '"); background-size: cover;';
         if (tooglePreview) {
           previewPhoto[0].style = stylePreview;
           tooglePreview = false;
@@ -148,6 +149,7 @@
   // Сброс фото аватара и фотографий жилья
   var resetPhotoFormAd = function () {
     previewAvatar.src = 'img/muffin-grey.svg';
+    previewAvatar.style = '';
     window.util.deleteElements(photoContainer, 'ad-form__photo--extra');
     previewPhoto[0].style = '';
     tooglePreview = true;
