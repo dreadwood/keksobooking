@@ -5,8 +5,8 @@
   "description": "Личный проект «Кексобукинг» от HTML Academy",
   "devDependencies": {
     "browser-sync": "2.26.14",
-    "eslint": "6.3.0",
-    "eslint-config-htmlacademy": "0.5.2",
+    "eslint": "7.18.0",
+    "eslint-config-htmlacademy": "2.0.0",
     "webpack": "5.38.1",
     "webpack-cli": "4.7.2",
     "webpack-dev-server": "3.11.2"
