@@ -1,41 +1,39 @@
-'use strict';
-
-(function () {
-  var Coord = {
+(() => {
+  const Coord = {
     MIN_X: -32,
     MAX_X: 1168,
     MIN_Y: 49,
-    MAX_Y: 549
+    MAX_Y: 549,
   };
 
-  var pinMain = document.querySelector('.map__pin--main');
+  const pinMain = document.querySelector('.map__pin--main');
 
-  pinMain.addEventListener('mousedown', function (evt) {
+  pinMain.addEventListener('mousedown', (evt) => {
     evt.preventDefault();
 
-    var startCoords = {
+    let startCoords = {
       x: evt.clientX,
-      y: evt.clientY
+      y: evt.clientY,
     };
 
-    var mouseMoveHandler = function (moveEvt) {
+    const mouseMoveHandler = (moveEvt) => {
       moveEvt.preventDefault();
 
-      var shift = {
+      const shift = {
         x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+        y: startCoords.y - moveEvt.clientY,
       };
 
       startCoords = {
         x: moveEvt.clientX,
-        y: moveEvt.clientY
+        y: moveEvt.clientY,
       };
 
-      var currentY = pinMain.offsetTop - shift.y;
-      var currentX = pinMain.offsetLeft - shift.x;
+      const currentY = pinMain.offsetTop - shift.y;
+      const currentX = pinMain.offsetLeft - shift.x;
 
-      var getPinMainCoord = function (current, max, min) {
-        var currentCoord;
+      const getPinMainCoord = (current, max, min) => {
+        let currentCoord;
         if (current > max) {
           currentCoord = max;
         } else if (current < min) {
@@ -52,7 +50,7 @@
       window.form.getAddress();
     };
 
-    var mouseUpHandler = function (upEvt) {
+    const mouseUpHandler = (upEvt) => {
       upEvt.preventDefault();
 
       window.removeEventListener('mousemove', mouseMoveHandler);

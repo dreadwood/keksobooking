@@ -1,18 +1,17 @@
-'use strict';
 
-(function () {
-  var URL_LOAD = 'https://22.javascript.pages.academy/keksobooking/data';
-  var URL_UPLOAD = 'https://22.javascript.pages.academy/keksobooking';
+(() => {
+  const URL_LOAD = 'https://22.javascript.pages.academy/keksobooking/data';
+  const URL_UPLOAD = 'https://22.javascript.pages.academy/keksobooking';
 
-  var statusCode = {
-    OK: 200
+  const statusCode = {
+    OK: 200,
   };
 
-  var loadData = function (loadCallback, errorCallback) {
-    var xhr = new XMLHttpRequest();
+  const loadData = (loadCallback, errorCallback) => {
+    const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    xhr.addEventListener('load', function () {
+    xhr.addEventListener('load', () => {
       if (xhr.status === statusCode.OK) {
         loadCallback(xhr.response);
       } else {
@@ -20,11 +19,11 @@
       }
     });
 
-    xhr.addEventListener('error', function () {
+    xhr.addEventListener('error', () => {
       errorCallback('Произошла ошибка соединения');
     });
 
-    xhr.addEventListener('timeout', function () {
+    xhr.addEventListener('timeout', () => {
       errorCallback('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
@@ -32,11 +31,11 @@
     xhr.send();
   };
 
-  var uploadData = function (data, upLoadCallback, onErrorCallback) {
-    var xhr = new XMLHttpRequest();
+  const uploadData = (data, upLoadCallback, onErrorCallback) => {
+    const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    xhr.addEventListener('load', function () {
+    xhr.addEventListener('load', () => {
       if (xhr.status === statusCode.OK) {
         upLoadCallback();
       } else {
@@ -50,6 +49,6 @@
 
   window.backend = {
     load: loadData,
-    upload: uploadData
+    upload: uploadData,
   };
 })();

@@ -1,11 +1,9 @@
-'use strict';
+(() => {
+  const map = document.querySelector('.map');
+  const pinMain = map.querySelector('.map__pin--main');
 
-(function () {
-  var map = document.querySelector('.map');
-  var pinMain = map.querySelector('.map__pin--main');
-
-  // Активация страницы
-  var activatePage = function () {
+  // активация страницы
+  const activatePage = () => {
     window.backend.load(window.map.activate, window.map.createError); // загр данных + актив карты
 
     window.form.activate(); // актив формы
@@ -14,8 +12,8 @@
     pinMain.removeEventListener('keydown', pinMainPressKeyHandler);
   };
 
-  // Сброс страницы в неактивное состояние
-  var resetPage = function () {
+  // сброс страницы в неактивное состояние
+  const resetPage = () => {
     window.map.reset(); // сброс карты
 
     window.form.reset(); // сброс формы
@@ -29,33 +27,33 @@
     document.removeEventListener('keydown', pageEscPressHandler);
   };
 
-  // Активация страницы
-  var pinMainClickHandler = function (evt) {
+  // активация страницы
+  const pinMainClickHandler = (evt) => {
     window.util.isLeftButtonEvent(evt, activatePage);
   };
 
-  var pinMainPressKeyHandler = function (evt) {
+  const pinMainPressKeyHandler = (evt) => {
     window.util.isEnterEvent(evt, activatePage);
   };
 
-  var pageEscPressHandler = function (evt) {
+  const pageEscPressHandler = (evt) => {
     window.util.isEscEvent(evt, resetPage);
   };
 
-  var pageClickHandler = function (evt) {
+  const pageClickHandler = (evt) => {
     window.util.isLeftButtonEvent(evt, resetPage);
   };
 
-  // Включние неактивного состояния
+  // включние неактивного состояния
   resetPage();
 
-  // Обработчик для активного состояния
+  // обработчик для активного состояния
   pinMain.addEventListener('mousedown', pinMainClickHandler);
   pinMain.addEventListener('keydown', pinMainPressKeyHandler);
 
   window.change = {
     resetPage: resetPage,
     pageEscPressHandler: pageEscPressHandler,
-    pageClickHandler: pageClickHandler
+    pageClickHandler: pageClickHandler,
   };
 })();

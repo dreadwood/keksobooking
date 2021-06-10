@@ -1,88 +1,89 @@
-'use strict';
-
-(function () {
-  var ORIGIN_COORDS_PIN_MAIN = 'left: 570px; top: 375px;';
-  var MAX_PINS_AD = 10;
-  var Price = {
+(() => {
+  const ORIGIN_COORDS_PIN_MAIN = 'left: 570px; top: 375px;';
+  const MAX_PINS_AD = 10;
+  const Price = {
     LOW: 10000,
-    HIGH: 50000
+    HIGH: 50000,
   };
-  var NamePrice = {
+  const NamePrice = {
     LOW: 'low',
     MIDDLE: 'middle',
-    HIGH: 'high'
+    HIGH: 'high',
   };
-  var map = document.querySelector('.map');
-  var mapPins = map.querySelector('.map__pins');
-  var pinMain = map.querySelector('.map__pin--main');
-  var filters = map.querySelector('.map__filters');
-  var selectFilters = filters.querySelectorAll('select');
-  var housingFeatures = map.querySelector('#housing-features');
-  var checkboxFilters = housingFeatures.querySelectorAll('input');
-  var houseCards; // массив загруж данных
-  var sortedArray; // массив сорт данных
-  var currentFilter = {}; // акт фильтры
-  var fragmentPin = document.createDocumentFragment(); // фрагм отрисовк
 
-  // Cоздать фрагмент с pin--ad
-  var createPins = function (data) {
-    var dataForPins = data.slice(0, MAX_PINS_AD);
-    dataForPins.forEach(function (item) {
+  let houseCards; // массив загруж данных
+  let sortedArray; // массив сорт данных
+  let currentFilter = {}; // акт фильтры
+
+  const map = document.querySelector('.map');
+  const mapPins = map.querySelector('.map__pins');
+  const pinMain = map.querySelector('.map__pin--main');
+  const filters = map.querySelector('.map__filters');
+  const selectFilters = filters.querySelectorAll('select');
+  const housingFeatures = map.querySelector('#housing-features');
+  const checkboxFilters = housingFeatures.querySelectorAll('input');
+
+  const fragmentPin = document.createDocumentFragment(); // фрагм отрисовк
+
+  // создать фрагмент с pin--ad
+  const createPins = (data) => {
+    const dataForPins = data.slice(0, MAX_PINS_AD);
+    dataForPins.forEach((item) => {
       fragmentPin.appendChild(window.pin.render(item));
     });
   };
 
-  // Добавляет pin--ad из фрагмента
-  var addPinAd = function () {
+  // добавляет pin--ad из фрагмента
+  const addPinAd = () => {
     window.util.deleteElements(mapPins, 'map__pin--ad');
     window.util.deleteElements(map, 'map__card');
     mapPins.appendChild(fragmentPin);
   };
 
-  // Фильтр типа жилья, кол-во комнат, гостей
-  var filterVariousFields = function (typeFilter) {
+  // фильтр типа жилья, кол-во комнат, гостей
+  const filterVariousFields = (typeFilter) => {
     if (currentFilter[typeFilter] !== 'any') {
-      sortedArray = sortedArray.filter(function (ad) {
+      sortedArray = sortedArray.filter((ad) => {
         return currentFilter[typeFilter] === String(ad.offer[typeFilter]);
       });
     }
   };
 
-  // Фильтр цены
-  var filterPrice = function () {
+  // фильтр цены
+  const filterPrice = () => {
     if (currentFilter.price === NamePrice.LOW) {
-      sortedArray = sortedArray.filter(function (ad) {
+      sortedArray = sortedArray.filter((ad) => {
         return ad.offer.price < Price.LOW;
       });
     } else if (currentFilter.price === NamePrice.HIGH) {
-      sortedArray = sortedArray.filter(function (ad) {
+      sortedArray = sortedArray.filter((ad) => {
         return ad.offer.price > Price.HIGH;
       });
     } else if (currentFilter.price === NamePrice.MIDDLE) {
-      sortedArray = sortedArray.filter(function (ad) {
+      sortedArray = sortedArray.filter((ad) => {
         return ad.offer.price >= Price.LOW && ad.offer.price <= Price.HIGH;
       });
     }
   };
 
-  // Фильтер удобств
-  var filterFeatures = function () {
+  // фильтер удобств
+  const filterFeatures = () => {
     if (currentFilter.features.length > 0) {
-      currentFilter.features.forEach(function (itemFilter) {
-        sortedArray = sortedArray.filter(function (ad) {
+      currentFilter.features.forEach((itemFilter) => {
+        sortedArray = sortedArray.filter((ad) => {
           return ad.offer.features.indexOf(itemFilter) > -1;
         });
       });
     }
   };
 
-  var getCurrentFilters = function () {
-    selectFilters.forEach(function (itemFilter) {
-      var indexCut = itemFilter.name.indexOf('-') + 1;
+  const getCurrentFilters = () => {
+    selectFilters.forEach((itemFilter) => {
+      const indexCut = itemFilter.name.indexOf('-') + 1;
       currentFilter[itemFilter.name.slice(indexCut)] = itemFilter.value;
     });
 
-    currentFilter.features = Array.from(checkboxFilters).reduce(function (result, itemFilter) {
+    currentFilter.features = Array.from(checkboxFilters).reduce((result, itemFilter) => {
       if (itemFilter.checked) {
         result.push(itemFilter.value);
       }
@@ -90,8 +91,8 @@
     }, []);
   };
 
-  // Изменение формы фильтров
-  filters.addEventListener('change', function () {
+  // изменение формы фильтров
+  filters.addEventListener('change', () => {
     getCurrentFilters();
     sortedArray = houseCards;
     filterVariousFields('type');
@@ -104,11 +105,11 @@
     window.util.debounce(addPinAd);
   });
 
-  // Уведомление отправки
-  var createSuccess = function () {
-    var mainPage = document.querySelector('main');
-    var successTemplate = document.querySelector('#success').content.querySelector('.success');
-    var successElement = successTemplate.cloneNode(true);
+  // уведомление отправки
+  const createSuccess = () => {
+    const mainPage = document.querySelector('main');
+    const successTemplate = document.querySelector('#success').content.querySelector('.success');
+    const successElement = successTemplate.cloneNode(true);
 
     successElement.classList.add('notification');
 
@@ -118,18 +119,18 @@
     mainPage.appendChild(successElement);
   };
 
-  // Сброс страницы
-  var buttonNotificationClickHandler = function (evt) {
+  // сброс страницы
+  const buttonNotificationClickHandler = (evt) => {
     window.util.isLeftButtonEvent(evt, window.change.resetPage);
   };
 
-  // Уведомление ошибки
-  var createError = function (message) {
-    var mainPage = document.querySelector('main');
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var errorElement = errorTemplate.cloneNode(true);
-    var errorMessage = errorElement.querySelector('.error__message');
-    var errorButton = errorElement.querySelector('.error__button');
+  // уведомление ошибки
+  const createError = (message) => {
+    const mainPage = document.querySelector('main');
+    const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    const errorElement = errorTemplate.cloneNode(true);
+    const errorMessage = errorElement.querySelector('.error__message');
+    const errorButton = errorElement.querySelector('.error__button');
 
     errorElement.classList.add('notification');
     errorMessage.textContent = message;
@@ -140,16 +141,16 @@
     mainPage.appendChild(errorElement);
   };
 
-  // Удалить уведомление
-  var deleteNotification = function () {
-    var notification = document.querySelector('.notification');
+  // удалить уведомление
+  const deleteNotification = () => {
+    const notification = document.querySelector('.notification');
     if (notification) {
       notification.remove();
     }
   };
 
-  // Активация карты
-  var activateMap = function (data) {
+  // активация карты
+  const activateMap = (data) => {
     houseCards = data; // сохр загр данные
     map.classList.remove('map--faded'); // удал стиль блокир
     createPins(houseCards); // созд фрагмент с pin--ad
@@ -158,8 +159,8 @@
     window.form.changeDisabled(filters, false); // разблок поля форм
   };
 
-  // Сброс карты
-  var resetMap = function () {
+  // сброс карты
+  const resetMap = () => {
     window.util.deleteElements(map, 'map__card'); // удал картч объявл
     window.util.deleteElements(mapPins, 'map__pin--ad'); // удал pin--ad
     pinMain.style = ORIGIN_COORDS_PIN_MAIN; // устан в центр pin--ad
@@ -175,6 +176,6 @@
     createError: createError,
     deleteNotification: deleteNotification,
     activate: activateMap,
-    reset: resetMap
+    reset: resetMap,
   };
 })();
