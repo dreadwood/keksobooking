@@ -7,6 +7,7 @@
     "browser-sync": "2.26.14",
     "eslint": "7.18.0",
     "eslint-config-htmlacademy": "2.0.0",
+    "push-dir": "0.4.1",
     "webpack": "5.38.1",
     "webpack-cli": "4.7.2",
     "webpack-dev-server": "3.11.2"
@@ -15,7 +16,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack server --mode development",
-    "test": "eslint src/js/"
+    "test": "eslint src/js/",
+    "gh-pages": "push-dir --dir=public --branch=gh-pages"
   },
   "engines": {
     "node": ">=12.0.0"
