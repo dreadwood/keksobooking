@@ -2,7 +2,7 @@
   "name": "keksobooking",
   "version": "19.0.0",
   "private": true,
-  "description": "Личный проект «Кексобукинг» от HTML Academy",
+  "description": "Проект «Кексобукинг»",
   "devDependencies": {
     "browser-sync": "2.26.14",
     "eslint": "7.18.0",
@@ -12,7 +12,6 @@
     "webpack-cli": "4.7.2",
     "webpack-dev-server": "3.11.2"
   },
-  "license": "MIT",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack server --mode development",
